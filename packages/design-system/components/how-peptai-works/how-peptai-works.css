@@ -1,0 +1,167 @@
+/* How PeptAI Works - Explainer Section */
+
+.how-it-works {
+  padding: var(--space-2);
+  background: var(--color-bg-card);
+  border: var(--border-width) solid var(--color-border-tertiary);
+}
+
+.how-it-works-header {
+  text-align: center;
+  margin-bottom: var(--space-2);
+  padding-bottom: var(--space-1);
+  border-bottom: var(--border-width) dashed var(--color-border-tertiary);
+}
+
+.how-it-works-title {
+  font-size: var(--text-xl);
+  color: var(--color-text-primary);
+  text-transform: uppercase;
+  margin-bottom: 8px;
+}
+
+.how-it-works-subtitle {
+  font-size: var(--text-base);
+  color: var(--color-text-tertiary);
+}
+
+.how-it-works-steps {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: var(--space-2);
+}
+
+.step {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  padding: var(--space-1);
+  border: var(--border-width) solid var(--color-border-tertiary);
+  background: var(--color-bg-page);
+  transition: all 0.3s;
+}
+
+.step:hover {
+  border-color: var(--color-success);
+  transform: translateY(-4px);
+}
+
+.step-number {
+  width: 60px;
+  height: 60px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: var(--border-width) solid var(--color-success);
+  font-size: var(--text-xl);
+  color: var(--color-success);
+  margin-bottom: var(--gap);
+}
+
+.step-title {
+  font-size: var(--text-base);
+  color: var(--color-text-primary);
+  text-transform: uppercase;
+  margin-bottom: 8px;
+}
+
+.step-description {
+  font-size: var(--text-sm);
+  color: var(--color-text-tertiary);
+  line-height: var(--leading-relaxed);
+}
+
+.step-icon {
+  font-size: 32px;
+  margin-bottom: var(--gap);
+}
+
+/* Arrow connectors */
+.step::after {
+  content: '→';
+  position: absolute;
+  right: -24px;
+  top: 50%;
+  transform: translateY(-50%);
+  font-size: var(--text-xl);
+  color: var(--color-border-tertiary);
+}
+
+.step:last-child::after {
+  display: none;
+}
+
+/* Responsive */
+@media (max-width: 1000px) {
+  .how-it-works-steps {
+    grid-template-columns: 1fr;
+  }
+  
+  .step {
+    position: relative;
+  }
+  
+  .step::after {
+    content: '↓';
+    right: auto;
+    top: auto;
+    bottom: -24px;
+    left: 50%;
+    transform: translateX(-50%);
+  }
+}
+
+/* Inline variant */
+.how-it-works-inline {
+  display: flex;
+  gap: var(--gap);
+  padding: var(--space-1);
+  border: var(--border-width) solid var(--color-border-tertiary);
+}
+
+.how-it-works-inline .step {
+  flex: 1;
+  border: none;
+  padding: var(--gap);
+}
+
+.how-it-works-inline .step-number {
+  width: 40px;
+  height: 40px;
+  font-size: var(--text-base);
+}
+
+/* Stats section */
+.how-it-works-stats {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: var(--gap);
+  margin-top: var(--space-2);
+  padding-top: var(--space-1);
+  border-top: var(--border-width) dashed var(--color-border-tertiary);
+}
+
+.stat {
+  text-align: center;
+  padding: var(--gap);
+  border: var(--border-width) solid var(--color-border-tertiary);
+}
+
+.stat-value {
+  font-size: var(--text-xl);
+  color: var(--color-success);
+  margin-bottom: 4px;
+}
+
+.stat-label {
+  font-size: var(--text-xs);
+  color: var(--color-text-dim);
+  text-transform: uppercase;
+}
+
+@media (max-width: 600px) {
+  .how-it-works-stats {
+    grid-template-columns: 1fr;
+  }
+}

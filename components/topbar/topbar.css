@@ -1,0 +1,50 @@
+/* Topbar Component */
+
+.topbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 12px;
+  background: var(--color-bg-page);
+  border-bottom: var(--border-width) solid var(--color-border-tertiary);
+}
+
+.topbar-title {
+  font-size: var(--text-base);
+  color: var(--color-text-primary);
+}
+
+.topbar-nav {
+  display: flex;
+  gap: var(--gap);
+  align-items: center;
+}
+
+.topbar-link {
+  font-size: var(--text-sm);
+  color: var(--color-text-tertiary);
+  text-decoration: none;
+  transition: color 0.2s;
+}
+
+.topbar-link:hover {
+  color: var(--color-text-primary);
+}
+
+.topbar-link.active {
+  color: var(--color-text-primary);
+  border-bottom: 2px solid var(--color-accent-primary);
+}
+
+@media (max-width: 600px) {
+  .topbar {
+    flex-direction: column;
+    gap: var(--gap);
+    align-items: flex-start;
+  }
+  
+  .topbar-nav {
+    width: 100%;
+    justify-content: space-between;
+  }
+}

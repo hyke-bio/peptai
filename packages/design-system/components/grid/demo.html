@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Grid System - PeptAI</title>
+  <link rel="stylesheet" href="../../tokens/colors.css">
+  <link rel="stylesheet" href="../../tokens/typography.css">
+  <link rel="stylesheet" href="../../tokens/spacing.css">
+  <link rel="stylesheet" href="grid.css">
+  <style>
+    body {
+      background: var(--color-bg-page);
+      color: var(--color-text-primary);
+      padding: var(--space-2);
+    }
+    .demo-box {
+      padding: var(--space-1);
+      background: var(--color-bg-card);
+      border: var(--border-width) solid var(--color-border-tertiary);
+      text-align: center;
+    }
+    h2 {
+      color: var(--color-text-primary);
+      margin: var(--space-2) 0 var(--space-1);
+      padding-bottom: var(--gap);
+      border-bottom: var(--border-width) dashed var(--color-border-tertiary);
+    }
+  </style>
+</head>
+<body>
+  <h1>Grid System</h1>
+  
+  <h2>2-Column Grid</h2>
+  <div class="grid grid-2">
+    <div class="demo-box">Column 1</div>
+    <div class="demo-box">Column 2</div>
+  </div>
+  
+  <h2>3-Column Grid</h2>
+  <div class="grid grid-3">
+    <div class="demo-box">Col 1</div>
+    <div class="demo-box">Col 2</div>
+    <div class="demo-box">Col 3</div>
+  </div>
+  
+  <h2>4-Column Grid</h2>
+  <div class="grid grid-4">
+    <div class="demo-box">1</div>
+    <div class="demo-box">2</div>
+    <div class="demo-box">3</div>
+    <div class="demo-box">4</div>
+  </div>
+  
+  <h2>Sidebar Layout (Left)</h2>
+  <div class="grid grid-sidebar-left">
+    <div class="demo-box">Sidebar</div>
+    <div class="demo-box">Main Content</div>
+  </div>
+  
+  <h2>Bordered Grid</h2>
+  <div class="grid grid-3 grid-bordered">
+    <div>Cell 1</div>
+    <div>Cell 2</div>
+    <div>Cell 3</div>
+    <div>Cell 4</div>
+    <div>Cell 5</div>
+    <div>Cell 6</div>
+  </div>
+</body>
+</html>

@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Loader - PeptAI</title>
+  <link rel="stylesheet" href="../../tokens/colors.css">
+  <link rel="stylesheet" href="../../tokens/typography.css">
+  <link rel="stylesheet" href="../../tokens/spacing.css">
+  <link rel="stylesheet" href="loader.css">
+  <style>
+    body {
+      background: var(--color-bg-page);
+      color: var(--color-text-primary);
+      padding: var(--space-2);
+    }
+    h1, h2 {
+      color: var(--color-text-primary);
+      margin: var(--space-2) 0 var(--space-1);
+    }
+    h2 {
+      padding-bottom: var(--gap);
+      border-bottom: var(--border-width) dashed var(--color-border-tertiary);
+    }
+    .demo-section {
+      margin-bottom: var(--space-2);
+      display: flex;
+      align-items: center;
+      gap: var(--space-1);
+    }
+  </style>
+</head>
+<body>
+  <h1>Loader Component</h1>
+  
+  <h2>ASCII Spinner</h2>
+  <div class="demo-section">
+    <span class="loader"></span>
+    <span>Loading...</span>
+  </div>
+  
+  <h2>Dot Loader</h2>
+  <div class="demo-section">
+    <div class="loader-dots">
+      <span></span>
+      <span></span>
+      <span></span>
+    </div>
+    <span>Processing...</span>
+  </div>
+  
+  <h2>Inline Usage</h2>
+  <p>
+    Analyzing sequences <span class="loader loader-inline"></span> please wait...
+  </p>
+  <p>
+    Running agent 
+    <span class="loader-dots loader-inline">
+      <span></span>
+      <span></span>
+      <span></span>
+    </span>
+    in progress
+  </p>
+</body>
+</html>

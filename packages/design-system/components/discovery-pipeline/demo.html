@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Discovery Pipeline - PeptAI</title>
+  <link rel="stylesheet" href="../../tokens/colors.css">
+  <link rel="stylesheet" href="../../tokens/typography.css">
+  <link rel="stylesheet" href="../../tokens/spacing.css">
+  <link rel="stylesheet" href="discovery-pipeline.css">
+  <style>
+    body {
+      background: var(--color-bg-page);
+      color: var(--color-text-primary);
+      padding: var(--space-2);
+    }
+    h1, h2 {
+      color: var(--color-text-primary);
+      margin: var(--space-2) 0 var(--space-1);
+    }
+    h2 {
+      padding-bottom: var(--gap);
+      border-bottom: var(--border-width) dashed var(--color-border-tertiary);
+    }
+  </style>
+</head>
+<body>
+  <h1>Discovery Pipeline</h1>
+  
+  <h2>Desktop View</h2>
+  <div class="discovery-pipeline">
+    <div class="pipeline-stage">
+      <div class="pipeline-node complete">
+        <span>✓</span>
+      </div>
+      <div class="pipeline-label">Input</div>
+      <div class="pipeline-count">1,000</div>
+    </div>
+    
+    <div class="pipeline-arrow active"></div>
+    
+    <div class="pipeline-stage">
+      <div class="pipeline-node complete">
+        <span>✓</span>
+      </div>
+      <div class="pipeline-label">Filter</div>
+      <div class="pipeline-count">842</div>
+    </div>
+    
+    <div class="pipeline-arrow active"></div>
+    
+    <div class="pipeline-stage">
+      <div class="pipeline-node active">
+        <span>⟳</span>
+      </div>
+      <div class="pipeline-label">Analyze</div>
+      <div class="pipeline-count">623</div>
+    </div>
+    
+    <div class="pipeline-arrow"></div>
+    
+    <div class="pipeline-stage">
+      <div class="pipeline-node pending">
+        <span>○</span>
+      </div>
+      <div class="pipeline-label">Rank</div>
+      <div class="pipeline-count">—</div>
+    </div>
+    
+    <div class="pipeline-arrow"></div>
+    
+    <div class="pipeline-stage">
+      <div class="pipeline-node pending">
+        <span>○</span>
+      </div>
+      <div class="pipeline-label">Output</div>
+      <div class="pipeline-count">—</div>
+    </div>
+  </div>
+  
+  <h2>Phone Variant (Resize to see)</h2>
+  <p style="color: var(--color-text-tertiary); font-size: var(--text-sm);">
+    Resize browser to < 600px width to see vertical layout
+  </p>
+</body>
+</html>

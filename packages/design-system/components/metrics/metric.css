@@ -1,0 +1,31 @@
+/* Metric Component */
+
+.metric {
+  padding: var(--gap);
+  background: var(--color-bg-card);
+  border: var(--border-width) solid var(--color-border-tertiary);
+}
+
+.metric-label {
+  font-size: var(--text-xs);
+  color: var(--color-text-tertiary);
+  margin-bottom: 4px;
+  text-transform: uppercase;
+}
+
+.metric-value {
+  font-size: var(--text-lg);
+  color: var(--color-text-primary);
+}
+
+.metric-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: var(--gap);
+}
+
+@media (max-width: 800px) {
+  .metric-grid {
+    grid-template-columns: 1fr;
+  }
+}

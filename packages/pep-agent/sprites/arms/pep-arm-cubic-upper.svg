@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 8 12" width="8" height="12">
+  <!-- Cubic upper arm segment -->
+  
+  <!-- Top bevel -->
+  <polygon points="1,1 7,1 6,0 2,0" fill="#F5F5DC"/>
+  
+  <!-- Main cube -->
+  <rect x="1" y="1" width="6" height="10" fill="#F5F5DC" stroke="#1A1A1A" stroke-width="1.5"/>
+  
+  <!-- Side panel (darker) -->
+  <rect x="1.5" y="2" width="2" height="8" fill="#E0E0C0"/>
+  
+  <!-- Joint (black circle at bottom) -->
+  <circle cx="4" cy="11" r="2" fill="#1A1A1A"/>
+  
+  <!-- Highlight -->
+  <line x1="1" y1="1" x2="7" y2="1" stroke="#FFFFFF" stroke-width="0.5" opacity="0.4"/>
+</svg>

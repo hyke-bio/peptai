@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" width="400" height="80" viewBox="0 0 400 80">
+  <!-- Node State Variants for PeptAI -->
+  
+  <!-- 1. Filled State -->
+  <g id="node-filled" transform="translate(10, 10)">
+    <rect width="60" height="60" fill="#40ff40" stroke="#1A1A1A" stroke-width="2"/>
+    <text x="30" y="75" text-anchor="middle" font-family="monospace" font-size="10">Filled</text>
+  </g>
+  
+  <!-- 2. Checkered State (transparent with checkerboard) -->
+  <g id="node-checkered" transform="translate(90, 10)">
+    <defs>
+      <pattern id="checkerboard" x="0" y="0" width="20" height="20" patternUnits="userSpaceOnUse">
+        <rect width="10" height="10" fill="#1A1A1A"/>
+        <rect x="10" y="10" width="10" height="10" fill="#1A1A1A"/>
+      </pattern>
+    </defs>
+    <rect width="60" height="60" fill="url(#checkerboard)" stroke="#1A1A1A" stroke-width="2" opacity="0.3"/>
+    <text x="30" y="75" text-anchor="middle" font-family="monospace" font-size="10">Checkered</text>
+  </g>
+  
+  <!-- 3. Dense Checkered State -->
+  <g id="node-dense-checkered" transform="translate(170, 10)">
+    <defs>
+      <pattern id="checkerboard-dense" x="0" y="0" width="10" height="10" patternUnits="userSpaceOnUse">
+        <rect width="5" height="5" fill="#1A1A1A"/>
+        <rect x="5" y="5" width="5" height="5" fill="#1A1A1A"/>
+      </pattern>
+    </defs>
+    <rect width="60" height="60" fill="url(#checkerboard-dense)" stroke="#1A1A1A" stroke-width="2" opacity="0.3"/>
+    <text x="30" y="75" text-anchor="middle" font-family="monospace" font-size="10">Dense</text>
+  </g>
+  
+  <!-- 4. Half Checkered Dense -->
+  <g id="node-half-checkered" transform="translate(250, 10)">
+    <rect width="60" height="60" fill="none" stroke="#1A1A1A" stroke-width="2"/>
+    <rect width="60" height="30" fill="url(#checkerboard-dense)" opacity="0.3"/>
+    <text x="30" y="75" text-anchor="middle" font-family="monospace" font-size="10">Half</text>
+  </g>
+  
+  <!-- 5. Air State (empty) -->
+  <g id="node-air" transform="translate(330, 10)">
+    <rect width="60" height="60" fill="none" stroke="#1A1A1A" stroke-width="2"/>
+    <text x="30" y="75" text-anchor="middle" font-family="monospace" font-size="10">Air</text>
+  </g>
+</svg>

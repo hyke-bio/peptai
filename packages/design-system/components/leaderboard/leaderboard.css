@@ -1,0 +1,126 @@
+/* Candidate Leaderboard */
+
+.leaderboard {
+  background: var(--color-bg-card);
+  border: var(--border-width) solid var(--color-border-tertiary);
+}
+
+.leaderboard-header {
+  display: grid;
+  grid-template-columns: 60px 1fr 120px 120px;
+  gap: var(--gap);
+  padding: var(--gap);
+  font-size: var(--text-xs);
+  color: var(--color-text-tertiary);
+  text-transform: uppercase;
+  border-bottom: var(--border-width) dashed var(--color-border-tertiary);
+}
+
+.leaderboard-item {
+  display: grid;
+  grid-template-columns: 60px 1fr 120px 120px;
+  gap: var(--gap);
+  padding: var(--gap);
+  align-items: center;
+  border-bottom: var(--border-width) solid var(--color-border-tertiary);
+  transition: background 0.2s;
+}
+
+.leaderboard-item:hover {
+  background: rgba(255, 255, 255, 0.02);
+}
+
+.leaderboard-item:last-child {
+  border-bottom: none;
+}
+
+.leaderboard-rank {
+  font-size: var(--text-lg);
+  color: var(--color-text-primary);
+  text-align: center;
+  font-weight: bold;
+}
+
+/* Top 3 special styling */
+.leaderboard-item:nth-child(2) .leaderboard-rank {
+  color: var(--color-warning);
+}
+
+.leaderboard-item:nth-child(3) .leaderboard-rank {
+  color: var(--color-text-secondary);
+}
+
+.leaderboard-item:nth-child(4) .leaderboard-rank {
+  color: #cd7f32;
+}
+
+.leaderboard-name {
+  font-size: var(--text-base);
+  color: var(--color-text-primary);
+}
+
+.leaderboard-id {
+  font-size: var(--text-xs);
+  color: var(--color-text-dim);
+  margin-top: 2px;
+}
+
+.leaderboard-score {
+  font-size: var(--text-base);
+  color: var(--color-success);
+  text-align: right;
+}
+
+.leaderboard-status {
+  font-size: var(--text-xs);
+  text-align: right;
+}
+
+.leaderboard-status-badge {
+  display: inline-block;
+  padding: 2px 6px;
+  border: var(--border-width) solid;
+  text-transform: uppercase;
+}
+
+.leaderboard-status-badge.active {
+  color: var(--color-success);
+  border-color: var(--color-success);
+}
+
+.leaderboard-status-badge.pending {
+  color: var(--color-warning);
+  border-color: var(--color-warning);
+}
+
+.leaderboard-status-badge.failed {
+  color: var(--color-error);
+  border-color: var(--color-error);
+}
+
+/* Responsive */
+@media (max-width: 800px) {
+  .leaderboard-header,
+  .leaderboard-item {
+    grid-template-columns: 50px 1fr 90px;
+  }
+  
+  .leaderboard-status {
+    display: none;
+  }
+}
+
+@media (max-width: 600px) {
+  .leaderboard-header,
+  .leaderboard-item {
+    grid-template-columns: 40px 1fr;
+  }
+  
+  .leaderboard-score {
+    display: none;
+  }
+  
+  .leaderboard-name {
+    font-size: var(--text-sm);
+  }
+}

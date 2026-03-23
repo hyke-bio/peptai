@@ -1,0 +1,113 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 300 500" width="300" height="500">
+  <defs>
+    <!-- Screen grid pattern -->
+    <pattern id="screenGrid" x="0" y="0" width="4" height="4" patternUnits="userSpaceOnUse">
+      <rect width="4" height="4" fill="#1a3a1a"/>
+      <circle cx="2" cy="2" r="0.5" fill="#2a5a2a" opacity="0.3"/>
+    </pattern>
+  </defs>
+  
+  <!-- HEAD -->
+  <g id="head" transform="translate(90, 10)">
+    <!-- Antenna ball -->
+    <circle cx="60" cy="10" r="8" fill="#1A1A1A"/>
+    <!-- Antenna line -->
+    <line x1="60" y1="18" x2="60" y2="35" stroke="#1A1A1A" stroke-width="2"/>
+    <!-- Head shell -->
+    <ellipse cx="60" cy="85" rx="55" ry="50" fill="#F5F5DC" stroke="#1A1A1A" stroke-width="2"/>
+    <!-- Screen face -->
+    <rect x="20" y="55" width="80" height="60" rx="8" fill="#1a3a1a" stroke="#1A1A1A" stroke-width="2"/>
+    <rect x="22" y="57" width="76" height="56" rx="6" fill="url(#screenGrid)"/>
+    <!-- Eyes (neutral) -->
+    <rect x="35" y="75" width="12" height="12" fill="#40ff40"/>
+    <rect x="73" y="75" width="12" height="12" fill="#40ff40"/>
+    <!-- Mouth (neutral) -->
+    <line x1="40" y1="100" x2="80" y2="100" stroke="#40ff40" stroke-width="3" stroke-linecap="round"/>
+  </g>
+  
+  <!-- BODY -->
+  <g id="body" transform="translate(110, 140)">
+    <!-- Body shell -->
+    <ellipse cx="40" cy="55" rx="35" ry="45" fill="#F5F5DC" stroke="#1A1A1A" stroke-width="2"/>
+    <!-- Heart symbol -->
+    <path d="M 40 45 
+             C 40 45, 35 35, 28 35
+             C 21 35, 20 42, 20 46
+             C 20 55, 40 65, 40 65
+             C 40 65, 60 55, 60 46
+             C 60 42, 59 35, 52 35
+             C 45 35, 40 45, 40 45 Z" 
+          fill="#1A1A1A"/>
+  </g>
+  
+  <!-- LEFT ARM UPPER -->
+  <g id="left-arm-upper" transform="translate(65, 165)">
+    <rect x="8" y="10" width="14" height="30" rx="7" fill="#F5F5DC" stroke="#1A1A1A" stroke-width="2"/>
+    <circle cx="15" cy="45" r="6" fill="#1A1A1A"/>
+  </g>
+  
+  <!-- LEFT ARM LOWER -->
+  <g id="left-arm-lower" transform="translate(65, 205)">
+    <rect x="8" y="10" width="14" height="32" rx="7" fill="#F5F5DC" stroke="#1A1A1A" stroke-width="2"/>
+    <ellipse cx="15" cy="47" rx="10" ry="6" fill="#F5F5DC" stroke="#1A1A1A" stroke-width="2"/>
+    <ellipse cx="10" cy="50" rx="3" ry="4" fill="#1A1A1A"/>
+    <ellipse cx="20" cy="50" rx="3" ry="4" fill="#1A1A1A"/>
+  </g>
+  
+  <!-- RIGHT ARM UPPER -->
+  <g id="right-arm-upper" transform="translate(220, 165)">
+    <rect x="8" y="10" width="14" height="30" rx="7" fill="#F5F5DC" stroke="#1A1A1A" stroke-width="2"/>
+    <circle cx="15" cy="45" r="6" fill="#1A1A1A"/>
+  </g>
+  
+  <!-- RIGHT ARM LOWER -->
+  <g id="right-arm-lower" transform="translate(220, 205)">
+    <rect x="8" y="10" width="14" height="32" rx="7" fill="#F5F5DC" stroke="#1A1A1A" stroke-width="2"/>
+    <ellipse cx="15" cy="47" rx="10" ry="6" fill="#F5F5DC" stroke="#1A1A1A" stroke-width="2"/>
+    <ellipse cx="10" cy="50" rx="3" ry="4" fill="#1A1A1A"/>
+    <ellipse cx="20" cy="50" rx="3" ry="4" fill="#1A1A1A"/>
+  </g>
+  
+  <!-- LEFT LEG UPPER -->
+  <g id="left-leg-upper" transform="translate(115, 235)">
+    <rect x="10" y="10" width="15" height="40" rx="7" fill="#1A1A1A" stroke="#000000" stroke-width="2"/>
+    <circle cx="17.5" cy="55" r="6" fill="#1A1A1A"/>
+  </g>
+  
+  <!-- LEFT LEG LOWER -->
+  <g id="left-leg-lower" transform="translate(115, 285)">
+    <path d="M 15 10 
+             L 10 70
+             Q 10 75, 13 78
+             L 27 78
+             Q 30 75, 30 70
+             L 25 10 Z" 
+          fill="#F5F5DC" 
+          stroke="#1A1A1A" 
+          stroke-width="2"/>
+    <ellipse cx="20" cy="83" rx="18" ry="6" fill="#F5F5DC" stroke="#1A1A1A" stroke-width="2"/>
+    <rect x="12" y="78" width="16" height="4" fill="#1A1A1A"/>
+  </g>
+  
+  <!-- RIGHT LEG UPPER -->
+  <g id="right-leg-upper" transform="translate(155, 235)">
+    <rect x="10" y="10" width="15" height="40" rx="7" fill="#1A1A1A" stroke="#000000" stroke-width="2"/>
+    <circle cx="17.5" cy="55" r="6" fill="#1A1A1A"/>
+  </g>
+  
+  <!-- RIGHT LEG LOWER -->
+  <g id="right-leg-lower" transform="translate(155, 285)">
+    <path d="M 15 10 
+             L 10 70
+             Q 10 75, 13 78
+             L 27 78
+             Q 30 75, 30 70
+             L 25 10 Z" 
+          fill="#F5F5DC" 
+          stroke="#1A1A1A" 
+          stroke-width="2"/>
+    <ellipse cx="20" cy="83" rx="18" ry="6" fill="#F5F5DC" stroke="#1A1A1A" stroke-width="2"/>
+    <rect x="12" y="78" width="16" height="4" fill="#1A1A1A"/>
+  </g>
+</svg>

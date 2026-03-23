@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 40 90" width="40" height="90">
+  <!-- Top connector point (knee joint) -->
+  <circle cx="20" cy="5" r="6" fill="#1A1A1A" stroke="#000000" stroke-width="1"/>
+  
+  <!-- Lower leg (cream cone shape - wider at bottom) -->
+  <path d="M 15 10 
+           L 10 70
+           Q 10 75, 13 78
+           L 27 78
+           Q 30 75, 30 70
+           L 25 10 Z" 
+        fill="#F5F5DC" 
+        stroke="#1A1A1A" 
+        stroke-width="2"/>
+  
+  <!-- Foot base (rounded) -->
+  <ellipse cx="20" cy="83" rx="18" ry="6" fill="#F5F5DC" stroke="#1A1A1A" stroke-width="2"/>
+  
+  <!-- Foot detail (black stripe) -->
+  <rect x="12" y="78" width="16" height="4" fill="#1A1A1A"/>
+</svg>

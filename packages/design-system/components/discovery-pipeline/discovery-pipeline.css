@@ -1,0 +1,123 @@
+/* Discovery Pipeline Visualization */
+
+.discovery-pipeline {
+  display: flex;
+  align-items: center;
+  gap: var(--gap);
+  padding: var(--space-1);
+  background: var(--color-bg-card);
+  border: var(--border-width) solid var(--color-border-tertiary);
+  overflow-x: auto;
+}
+
+.pipeline-stage {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  min-width: 120px;
+  position: relative;
+}
+
+.pipeline-node {
+  width: 60px;
+  height: 60px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: var(--border-width) solid var(--color-border-primary);
+  background: var(--color-bg-page);
+  font-size: var(--text-lg);
+  position: relative;
+}
+
+.pipeline-node.active {
+  border-color: var(--color-success);
+  box-shadow: 0 0 8px rgba(64, 255, 64, 0.3);
+}
+
+.pipeline-node.complete {
+  border-color: var(--color-success);
+  background: rgba(64, 255, 64, 0.1);
+}
+
+.pipeline-node.pending {
+  border-color: var(--color-border-tertiary);
+  opacity: 0.5;
+}
+
+.pipeline-label {
+  margin-top: 8px;
+  font-size: var(--text-xs);
+  color: var(--color-text-tertiary);
+  text-align: center;
+  text-transform: uppercase;
+}
+
+.pipeline-count {
+  margin-top: 4px;
+  font-size: var(--text-sm);
+  color: var(--color-text-primary);
+}
+
+.pipeline-arrow {
+  width: 24px;
+  height: 2px;
+  background: var(--color-border-primary);
+  margin: 0 -12px;
+  position: relative;
+  top: -40px;
+}
+
+.pipeline-arrow.active {
+  background: var(--color-success);
+}
+
+.pipeline-arrow::after {
+  content: '→';
+  position: absolute;
+  right: -8px;
+  top: -8px;
+  color: var(--color-border-primary);
+  font-size: 16px;
+}
+
+.pipeline-arrow.active::after {
+  color: var(--color-success);
+}
+
+/* Phone variant - vertical layout */
+@media (max-width: 600px) {
+  .discovery-pipeline {
+    flex-direction: column;
+    align-items: stretch;
+  }
+  
+  .pipeline-stage {
+    flex-direction: row;
+    min-width: auto;
+    width: 100%;
+    justify-content: flex-start;
+    gap: var(--gap);
+  }
+  
+  .pipeline-arrow {
+    width: 2px;
+    height: 24px;
+    margin: -12px 0;
+    left: 30px;
+    top: 0;
+  }
+  
+  .pipeline-arrow::after {
+    content: '↓';
+    right: auto;
+    left: -7px;
+    top: auto;
+    bottom: -8px;
+  }
+  
+  .pipeline-label {
+    margin: 0;
+    text-align: left;
+  }
+}

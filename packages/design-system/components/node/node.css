@@ -1,0 +1,128 @@
+/* Pipeline Node Component */
+
+.node {
+  width: 80px;
+  height: 80px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  border: var(--border-width) solid var(--color-border-primary);
+  background: var(--color-bg-card);
+  position: relative;
+  transition: all 0.3s;
+}
+
+.node:hover {
+  border-color: var(--color-hover);
+  transform: scale(1.05);
+}
+
+.node-icon {
+  font-size: var(--text-xl);
+  color: var(--color-text-primary);
+  line-height: 1;
+}
+
+.node-label {
+  margin-top: 4px;
+  font-size: var(--text-xs);
+  color: var(--color-text-tertiary);
+  text-transform: uppercase;
+  text-align: center;
+}
+
+/* Node States */
+.node.active {
+  border-color: var(--color-success);
+  box-shadow: 0 0 12px rgba(64, 255, 64, 0.4);
+}
+
+.node.active .node-icon {
+  color: var(--color-success);
+  animation: pulse-node 2s infinite;
+}
+
+@keyframes pulse-node {
+  0%, 100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.5;
+  }
+}
+
+.node.complete {
+  border-color: var(--color-success);
+  background: rgba(64, 255, 64, 0.05);
+}
+
+.node.complete .node-icon {
+  color: var(--color-success);
+}
+
+.node.error {
+  border-color: var(--color-error);
+  background: rgba(255, 64, 64, 0.05);
+}
+
+.node.error .node-icon {
+  color: var(--color-error);
+}
+
+.node.pending {
+  border-color: var(--color-border-tertiary);
+  opacity: 0.4;
+}
+
+.node.warning {
+  border-color: var(--color-warning);
+}
+
+.node.warning .node-icon {
+  color: var(--color-warning);
+}
+
+/* Node Badge */
+.node-badge {
+  position: absolute;
+  top: -6px;
+  right: -6px;
+  width: 20px;
+  height: 20px;
+  background: var(--color-bg-page);
+  border: var(--border-width) solid var(--color-success);
+  font-size: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--color-success);
+}
+
+/* Small variant */
+.node-sm {
+  width: 60px;
+  height: 60px;
+}
+
+.node-sm .node-icon {
+  font-size: var(--text-lg);
+}
+
+.node-sm .node-label {
+  font-size: 10px;
+}
+
+/* Large variant */
+.node-lg {
+  width: 100px;
+  height: 100px;
+}
+
+.node-lg .node-icon {
+  font-size: 32px;
+}
+
+.node-lg .node-label {
+  font-size: var(--text-sm);
+}

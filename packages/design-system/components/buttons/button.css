@@ -1,0 +1,71 @@
+/* Button Components - from PeptAI Figma */
+
+.btn {
+  display: inline-block;
+  padding: 10px 16px;
+  font-family: var(--font-mono);
+  font-size: var(--text-sm);
+  font-weight: var(--font-normal);
+  text-align: center;
+  text-decoration: none;
+  border: var(--border-width) solid;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+/* Primary Button */
+.btn-primary {
+  background: var(--color-text-primary);
+  color: var(--color-bg-page);
+  border-color: var(--color-text-primary);
+}
+
+.btn-primary:hover {
+  background: var(--color-text-secondary);
+  border-color: var(--color-text-secondary);
+}
+
+/* Secondary Button */
+.btn-secondary {
+  background: var(--color-bg-page);
+  color: var(--color-text-primary);
+  border-color: var(--color-border-primary);
+}
+
+.btn-secondary:hover {
+  border-color: var(--color-hover);
+}
+
+/* Tertiary Button */
+.btn-tertiary {
+  background: transparent;
+  color: var(--color-text-tertiary);
+  border-color: var(--color-border-tertiary);
+}
+
+.btn-tertiary:hover {
+  color: var(--color-text-secondary);
+  border-color: var(--color-border-secondary);
+}
+
+/* Button Sizes */
+.btn-sm {
+  padding: 6px 12px;
+  font-size: var(--text-xs);
+}
+
+.btn-lg {
+  padding: 14px 24px;
+  font-size: var(--text-base);
+}
+
+/* Button States */
+.btn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+  pointer-events: none;
+}
+
+.btn:active {
+  transform: translateY(1px);
+}

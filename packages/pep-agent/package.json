@@ -1,0 +1,23 @@
+{
+  "name": "@hyke-bio/pep-agent",
+  "version": "1.0.0",
+  "description": "Pep Agent character system - modular SVG mascot for BIO Protocol",
+  "main": "assembled/pep-agent-default.svg",
+  "scripts": {
+    "dev": "python3 -m http.server 8100 --bind 0.0.0.0",
+    "validate": "echo 'Validating SVG files...'"
+  },
+  "keywords": [
+    "character",
+    "svg",
+    "mascot",
+    "bioprotocol",
+    "modular"
+  ],
+  "author": "Hyke",
+  "repository": {
+    "type": "git",
+    "url": "github:hyke-bio/peptai",
+    "directory": "packages/pep-agent"
+  }
+}

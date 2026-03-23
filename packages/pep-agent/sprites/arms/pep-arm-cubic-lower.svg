@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 8 12" width="8" height="12">
+  <!-- Cubic lower arm segment -->
+  
+  <!-- Joint (black circle at top) -->
+  <circle cx="4" cy="1" r="2" fill="#1A1A1A"/>
+  
+  <!-- Main cube -->
+  <rect x="1" y="2" width="6" height="9" fill="#F5F5DC" stroke="#1A1A1A" stroke-width="1.5"/>
+  
+  <!-- Side panel (darker) -->
+  <rect x="4.5" y="3" width="2" height="7" fill="#E0E0C0"/>
+  
+  <!-- Hand (cubic) -->
+  <rect x="2" y="10" width="4" height="2" fill="#F5F5DC" stroke="#1A1A1A" stroke-width="1"/>
+  
+  <!-- Highlight -->
+  <line x1="1" y1="2" x2="7" y2="2" stroke="#FFFFFF" stroke-width="0.5" opacity="0.4"/>
+</svg>

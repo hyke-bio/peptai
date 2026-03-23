@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Node - PeptAI</title>
+  <link rel="stylesheet" href="../../tokens/colors.css">
+  <link rel="stylesheet" href="../../tokens/typography.css">
+  <link rel="stylesheet" href="../../tokens/spacing.css">
+  <link rel="stylesheet" href="node.css">
+  <style>
+    body {
+      background: var(--color-bg-page);
+      color: var(--color-text-primary);
+      padding: var(--space-2);
+    }
+    h1, h2 {
+      color: var(--color-text-primary);
+      margin: var(--space-2) 0 var(--space-1);
+    }
+    h2 {
+      padding-bottom: var(--gap);
+      border-bottom: var(--border-width) dashed var(--color-border-tertiary);
+    }
+    .demo-grid {
+      display: flex;
+      gap: var(--space-1);
+      flex-wrap: wrap;
+    }
+  </style>
+</head>
+<body>
+  <h1>Pipeline Node Component</h1>
+  
+  <h2>States</h2>
+  <div class="demo-grid">
+    <div class="node">
+      <div class="node-icon">○</div>
+      <div class="node-label">Default</div>
+    </div>
+    
+    <div class="node active">
+      <div class="node-icon">⟳</div>
+      <div class="node-label">Active</div>
+    </div>
+    
+    <div class="node complete">
+      <div class="node-icon">✓</div>
+      <div class="node-label">Complete</div>
+    </div>
+    
+    <div class="node error">
+      <div class="node-icon">✗</div>
+      <div class="node-label">Error</div>
+    </div>
+    
+    <div class="node pending">
+      <div class="node-icon">○</div>
+      <div class="node-label">Pending</div>
+    </div>
+    
+    <div class="node warning">
+      <div class="node-icon">⚠</div>
+      <div class="node-label">Warning</div>
+    </div>
+  </div>
+  
+  <h2>With Badge</h2>
+  <div class="demo-grid">
+    <div class="node active">
+      <div class="node-badge">3</div>
+      <div class="node-icon">⟳</div>
+      <div class="node-label">Running</div>
+    </div>
+    
+    <div class="node complete">
+      <div class="node-badge">✓</div>
+      <div class="node-icon">✓</div>
+      <div class="node-label">Done</div>
+    </div>
+  </div>
+  
+  <h2>Sizes</h2>
+  <div class="demo-grid" style="align-items: flex-end;">
+    <div class="node node-sm active">
+      <div class="node-icon">⟳</div>
+      <div class="node-label">Small</div>
+    </div>
+    
+    <div class="node active">
+      <div class="node-icon">⟳</div>
+      <div class="node-label">Default</div>
+    </div>
+    
+    <div class="node node-lg active">
+      <div class="node-icon">⟳</div>
+      <div class="node-label">Large</div>
+    </div>
+  </div>
+</body>
+</html>

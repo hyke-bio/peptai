@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24">
+  <!-- Cubic torso with beveled edges -->
+  
+  <!-- Top bevel -->
+  <polygon points="2,2 22,2 20,0 4,0" fill="#F5F5DC"/>
+  
+  <!-- Left side -->
+  <polygon points="0,4 2,2 2,22 0,20" fill="#E0E0C0"/>
+  
+  <!-- Right side -->
+  <polygon points="22,2 24,4 24,20 22,22" fill="#E0E0C0"/>
+  
+  <!-- Main cube body -->
+  <rect x="2" y="2" width="20" height="20" fill="#F5F5DC" stroke="#1A1A1A" stroke-width="2"/>
+  
+  <!-- BIO heart logo (cubic style) -->
+  <g transform="translate(12, 12)">
+    <!-- Cube heart shape -->
+    <rect x="-3" y="-4" width="2" height="2" fill="#40ff40"/>
+    <rect x="1" y="-4" width="2" height="2" fill="#40ff40"/>
+    <rect x="-4" y="-2" width="8" height="2" fill="#40ff40"/>
+    <rect x="-3" y="0" width="6" height="2" fill="#40ff40"/>
+    <rect x="-2" y="2" width="4" height="2" fill="#40ff40"/>
+    <rect x="-1" y="4" width="2" height="1" fill="#40ff40"/>
+  </g>
+  
+  <!-- Edge highlights -->
+  <line x1="2" y1="2" x2="22" y2="2" stroke="#FFFFFF" stroke-width="1" opacity="0.3"/>
+  <line x1="2" y1="2" x2="2" y2="22" stroke="#FFFFFF" stroke-width="1" opacity="0.3"/>
+  
+  <!-- Bottom bevel -->
+  <polygon points="2,22 22,22 20,24 4,24" fill="#D0D0B0"/>
+</svg>

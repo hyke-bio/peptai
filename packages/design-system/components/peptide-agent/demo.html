@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Peptide Agent - Crystallized UI</title>
+  <link rel="stylesheet" href="../../tokens/colors.css">
+  <link rel="stylesheet" href="../../tokens/typography.css">
+  <link rel="stylesheet" href="../../tokens/spacing.css">
+  <link rel="stylesheet" href="peptide-agent.css">
+  <style>
+    body {
+      background: var(--color-bg-page);
+      color: var(--color-text-primary);
+      padding: 20px;
+      display: flex;
+      gap: 20px;
+      flex-wrap: wrap;
+    }
+  </style>
+</head>
+<body>
+  <!-- Active State -->
+  <div class="peptide-agent">
+    <!-- Header -->
+    <div class="peptide-agent-header">
+      <div class="peptide-agent-title">Peptide Discovery</div>
+      <div class="peptide-agent-status">
+        <div class="peptide-agent-pulse"></div>
+        <span>RUNNING</span>
+      </div>
+    </div>
+    
+    <!-- Character Centerpiece -->
+    <div class="peptide-agent-character">
+      <svg class="peptide-agent-robot" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+        <!-- Simple clean robot -->
+        <rect x="30" y="30" width="40" height="40" fill="#F5F5DC" stroke="#1A1A1A" stroke-width="2"/>
+        <rect x="35" y="15" width="30" height="20" fill="#F5F5DC" stroke="#1A1A1A" stroke-width="2"/>
+        <circle cx="43" cy="25" r="3" fill="#40ff40"/>
+        <circle cx="57" cy="25" r="3" fill="#40ff40"/>
+        <rect x="20" y="35" width="10" height="20" fill="#F5F5DC" stroke="#1A1A1A" stroke-width="2"/>
+        <rect x="70" y="35" width="10" height="20" fill="#F5F5DC" stroke="#1A1A1A" stroke-width="2"/>
+        <rect x="35" y="70" width="12" height="20" fill="#F5F5DC" stroke="#1A1A1A" stroke-width="2"/>
+        <rect x="53" y="70" width="12" height="20" fill="#F5F5DC" stroke="#1A1A1A" stroke-width="2"/>
+      </svg>
+    </div>
+    
+    <!-- Dense Metrics Grid -->
+    <div class="peptide-agent-metrics">
+      <div class="peptide-agent-metric">
+        <div class="peptide-agent-metric-label">Runtime</div>
+        <div class="peptide-agent-metric-value">02:34</div>
+      </div>
+      <div class="peptide-agent-metric">
+        <div class="peptide-agent-metric-label">Candidates</div>
+        <div class="peptide-agent-metric-value">1,247</div>
+      </div>
+      <div class="peptide-agent-metric">
+        <div class="peptide-agent-metric-label">Gate</div>
+        <div class="peptide-agent-metric-value">4/9</div>
+      </div>
+    </div>
+    
+    <!-- Current Activity -->
+    <div class="peptide-agent-activity">
+      <div class="peptide-agent-activity-label">Current Activity</div>
+      <div class="peptide-agent-activity-text">
+        Analyzing binding affinity predictions for candidate sequences
+      </div>
+    </div>
+    
+    <!-- Progress Bar -->
+    <div class="peptide-agent-progress">
+      <div class="peptide-agent-progress-header">
+        <div class="peptide-agent-progress-label">Overall Progress</div>
+        <div class="peptide-agent-progress-value">44%</div>
+      </div>
+      <div class="peptide-agent-progress-bar">
+        <div class="peptide-agent-progress-fill" style="width: 44%"></div>
+      </div>
+    </div>
+    
+    <!-- Pipeline Gates Visual -->
+    <div class="peptide-agent-gates">
+      <div class="peptide-agent-gates-label">Validation Gates</div>
+      <div class="peptide-agent-gates-grid">
+        <div class="peptide-agent-gate passed">1</div>
+        <div class="peptide-agent-gate passed">2</div>
+        <div class="peptide-agent-gate passed">3</div>
+        <div class="peptide-agent-gate current">4</div>
+        <div class="peptide-agent-gate">5</div>
+        <div class="peptide-agent-gate">6</div>
+        <div class="peptide-agent-gate">7</div>
+        <div class="peptide-agent-gate">8</div>
+        <div class="peptide-agent-gate">9</div>
+      </div>
+    </div>
+    
+    <!-- Activity Timeline -->
+    <div class="peptide-agent-timeline">
+      <div class="peptide-agent-timeline-label">Recent Activity</div>
+      <div class="peptide-agent-timeline-item">
+        <div class="peptide-agent-timeline-time">14:32</div>
+        <div class="peptide-agent-timeline-text">Started Gate 4 validation</div>
+      </div>
+      <div class="peptide-agent-timeline-item">
+        <div class="peptide-agent-timeline-time">14:28</div>
+        <div class="peptide-agent-timeline-text">Passed Gate 3: Toxicity screening</div>
+      </div>
+      <div class="peptide-agent-timeline-item">
+        <div class="peptide-agent-timeline-time">14:21</div>
+        <div class="peptide-agent-timeline-text">Passed Gate 2: Structure prediction</div>
+      </div>
+      <div class="peptide-agent-timeline-item">
+        <div class="peptide-agent-timeline-time">14:15</div>
+        <div class="peptide-agent-timeline-text">Passed Gate 1: Sequence validation</div>
+      </div>
+      <div class="peptide-agent-timeline-item">
+        <div class="peptide-agent-timeline-time">14:12</div>
+        <div class="peptide-agent-timeline-text">Generated 1,247 candidate sequences</div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    // Simulate live updates
+    const agent = document.querySelector('.peptide-agent');
+    let progress = 44;
+    let candidates = 1247;
+    let currentGate = 4;
+    
+    setInterval(() => {
+      // Update progress
+      progress = Math.min(100, progress + Math.random() * 1.5);
+      const progressFill = agent.querySelector('.peptide-agent-progress-fill');
+      const progressValue = agent.querySelector('.peptide-agent-progress-value');
+      progressFill.style.width = progress + '%';
+      progressValue.textContent = Math.floor(progress) + '%';
+      
+      // Update candidates
+      candidates += Math.floor(Math.random() * 5);
+      const candidateMetric = agent.querySelectorAll('.peptide-agent-metric-value')[1];
+      candidateMetric.textContent = candidates.toLocaleString();
+      
+      // Maybe advance gate
+      if (progress > (currentGate / 9) * 100 + 10 && currentGate < 9) {
+        currentGate++;
+        updateGates();
+      }
+    }, 2000);
+    
+    function updateGates() {
+      const gates = agent.querySelectorAll('.peptide-agent-gate');
+      gates.forEach((gate, i) => {
+        gate.className = 'peptide-agent-gate';
+        if (i < currentGate - 1) gate.classList.add('passed');
+        if (i === currentGate - 1) gate.classList.add('current');
+      });
+      
+      // Update gate metric
+      const gateMetric = agent.querySelectorAll('.peptide-agent-metric-value')[2];
+      gateMetric.textContent = `${currentGate}/9`;
+    }
+  </script>
+</body>
+</html>

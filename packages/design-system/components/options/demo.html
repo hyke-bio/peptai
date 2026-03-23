@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Options - PeptAI</title>
+  <link rel="stylesheet" href="../../tokens/colors.css">
+  <link rel="stylesheet" href="../../tokens/typography.css">
+  <link rel="stylesheet" href="../../tokens/spacing.css">
+  <link rel="stylesheet" href="options.css">
+  <style>
+    body {
+      background: var(--color-bg-page);
+      color: var(--color-text-primary);
+      padding: var(--space-2);
+    }
+    h1, h2 {
+      color: var(--color-text-primary);
+      margin: var(--space-2) 0 var(--space-1);
+    }
+    h2 {
+      padding-bottom: var(--gap);
+      border-bottom: var(--border-width) dashed var(--color-border-tertiary);
+    }
+    .demo-section {
+      margin-bottom: var(--space-3);
+    }
+  </style>
+</head>
+<body>
+  <h1>Options Component</h1>
+  
+  <div class="demo-section">
+    <h2>Dropdown Menu</h2>
+    <div class="options">
+      <button class="options-trigger">Select Agent</button>
+      <div class="options-menu">
+        <div class="options-label">Discovery</div>
+        <div class="options-item">Agent-01</div>
+        <div class="options-item selected">Agent-07</div>
+        <div class="options-item">Agent-12</div>
+        <div class="options-divider"></div>
+        <div class="options-label">Analysis</div>
+        <div class="options-item">Agent-03</div>
+        <div class="options-item">Agent-09</div>
+        <div class="options-item disabled">Agent-15 (offline)</div>
+      </div>
+    </div>
+  </div>
+  
+  <div class="demo-section">
+    <h2>Inline Selector</h2>
+    <div class="options-inline">
+      <div class="options-item">List</div>
+      <div class="options-item selected">Grid</div>
+      <div class="options-item">Table</div>
+    </div>
+  </div>
+  
+  <div class="demo-section">
+    <h2>Compact Variant</h2>
+    <div class="options options-compact">
+      <button class="options-trigger">Sort by</button>
+      <div class="options-menu">
+        <div class="options-item selected">Score (High → Low)</div>
+        <div class="options-item">Score (Low → High)</div>
+        <div class="options-item">Name (A → Z)</div>
+        <div class="options-item">Date (Newest)</div>
+        <div class="options-item">Date (Oldest)</div>
+      </div>
+    </div>
+  </div>
+  
+  <script>
+    // Simple toggle for demo
+    document.querySelectorAll('.options-trigger').forEach(trigger => {
+      trigger.addEventListener('click', function() {
+        const menu = this.nextElementSibling;
+        if (menu && menu.classList.contains('options-menu')) {
+          menu.style.display = menu.style.display === 'block' ? 'none' : 'block';
+        }
+      });
+    });
+    
+    // Close on outside click
+    document.addEventListener('click', function(e) {
+      if (!e.target.closest('.options')) {
+        document.querySelectorAll('.options-menu').forEach(menu => {
+          menu.style.display = 'none';
+        });
+      }
+    });
+    
+    // Select items
+    document.querySelectorAll('.options-item').forEach(item => {
+      item.addEventListener('click', function() {
+        if (!this.classList.contains('disabled')) {
+          this.closest('.options-menu').querySelectorAll('.options-item').forEach(i => {
+            i.classList.remove('selected');
+          });
+          this.classList.add('selected');
+        }
+      });
+    });
+  </script>
+</body>
+</html>

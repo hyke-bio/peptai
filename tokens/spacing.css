@@ -1,0 +1,33 @@
+/* Pept Visual System - Spacing Tokens */
+
+:root {
+  /* Base spacing unit: 12px */
+  --space-1: 12px;
+  --space-2: 24px;
+  --space-3: 36px;
+  --space-4: 48px;
+  
+  /* Component spacing */
+  --gap: 12px;
+  --padding-card: 16px;
+  --padding-section: 24px;
+  
+  /* Border radius (minimal) */
+  --radius-none: 0;
+  --radius-sm: 2px;
+  
+  /* Border widths */
+  --border-width: 1px;
+}
+
+/* Utility classes */
+.gap { gap: var(--gap); }
+.space-1 { margin: var(--space-1); }
+.space-2 { margin: var(--space-2); }
+.space-3 { margin: var(--space-3); }
+.space-4 { margin: var(--space-4); }
+
+.p-card { padding: var(--padding-card); }
+.p-section { padding: var(--padding-section); }
+
+.border { border-width: var(--border-width); }

@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Message - PeptAI</title>
+  <link rel="stylesheet" href="../../tokens/colors.css">
+  <link rel="stylesheet" href="../../tokens/typography.css">
+  <link rel="stylesheet" href="../../tokens/spacing.css">
+  <link rel="stylesheet" href="message.css">
+  <style>
+    body {
+      background: var(--color-bg-page);
+      color: var(--color-text-primary);
+      padding: var(--space-2);
+      max-width: 800px;
+      margin: 0 auto;
+    }
+    h1, h2 {
+      color: var(--color-text-primary);
+      margin: var(--space-2) 0 var(--space-1);
+    }
+    h2 {
+      padding-bottom: var(--gap);
+      border-bottom: var(--border-width) dashed var(--color-border-tertiary);
+    }
+  </style>
+</head>
+<body>
+  <h1>Message Component</h1>
+  
+  <h2>Variants</h2>
+  
+  <div class="message success">
+    <div class="message-icon">✓</div>
+    <div class="message-content">
+      <div class="message-title">Success</div>
+      <div class="message-body">Analysis completed successfully. 1,234 candidates identified.</div>
+    </div>
+    <div class="message-close">×</div>
+  </div>
+  
+  <div class="message error">
+    <div class="message-icon">✗</div>
+    <div class="message-content">
+      <div class="message-title">Error</div>
+      <div class="message-body">Failed to connect to database. Please check your connection and try again.</div>
+    </div>
+    <div class="message-close">×</div>
+  </div>
+  
+  <div class="message warning">
+    <div class="message-icon">⚠</div>
+    <div class="message-content">
+      <div class="message-title">Warning</div>
+      <div class="message-body">Low confidence scores detected. Consider re-running with adjusted parameters.</div>
+    </div>
+    <div class="message-close">×</div>
+  </div>
+  
+  <div class="message info">
+    <div class="message-icon">ⓘ</div>
+    <div class="message-content">
+      <div class="message-title">Information</div>
+      <div class="message-body">Agent-07 is now running. Estimated completion time: 2h 34m.</div>
+    </div>
+    <div class="message-close">×</div>
+  </div>
+  
+  <h2>With Actions</h2>
+  
+  <div class="message warning">
+    <div class="message-icon">⚠</div>
+    <div class="message-content">
+      <div class="message-title">Confirmation Required</div>
+      <div class="message-body">This action will delete 156 candidates. Are you sure?</div>
+      <div class="message-actions">
+        <button class="message-action">Confirm</button>
+        <button class="message-action">Cancel</button>
+      </div>
+    </div>
+    <div class="message-close">×</div>
+  </div>
+  
+  <h2>Compact</h2>
+  
+  <div class="message message-compact success">
+    <div class="message-icon">✓</div>
+    <div class="message-content">
+      <div class="message-title">Task completed</div>
+    </div>
+    <div class="message-close">×</div>
+  </div>
+  
+  <div class="message message-compact error">
+    <div class="message-icon">✗</div>
+    <div class="message-content">
+      <div class="message-title">Connection failed</div>
+    </div>
+    <div class="message-close">×</div>
+  </div>
+  
+  <h2>Inline</h2>
+  
+  <p>
+    Status: 
+    <span class="message message-inline success">
+      <span class="message-icon">✓</span>
+      <span class="message-title">Active</span>
+    </span>
+  </p>
+  
+  <h2>Toast (Fixed Position)</h2>
+  <button onclick="showToast()" style="padding: 8px 16px; background: #fff; color: #000; border: none; cursor: pointer;">
+    Show Toast Notification
+  </button>
+  
+  <script>
+    // Close button functionality
+    document.querySelectorAll('.message-close').forEach(close => {
+      close.addEventListener('click', function() {
+        this.closest('.message').style.display = 'none';
+      });
+    });
+    
+    // Toast demo
+    function showToast() {
+      const toast = document.createElement('div');
+      toast.className = 'message message-toast success';
+      toast.innerHTML = `
+        <div class="message-icon">✓</div>
+        <div class="message-content">
+          <div class="message-title">Success</div>
+          <div class="message-body">This is a toast notification</div>
+        </div>
+        <div class="message-close">×</div>
+      `;
+      
+      document.body.appendChild(toast);
+      
+      toast.querySelector('.message-close').addEventListener('click', function() {
+        toast.classList.add('message-exit');
+        setTimeout(() => toast.remove(), 300);
+      });
+      
+      setTimeout(() => {
+        toast.classList.add('message-exit');
+        setTimeout(() => toast.remove(), 300);
+      }, 3000);
+    }
+  </script>
+</body>
+</html>

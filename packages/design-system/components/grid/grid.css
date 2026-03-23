@@ -1,0 +1,69 @@
+/* Grid System - Terminal Layout */
+
+.grid {
+  display: grid;
+  gap: var(--gap);
+}
+
+/* Standard layouts */
+.grid-2 {
+  grid-template-columns: repeat(2, 1fr);
+}
+
+.grid-3 {
+  grid-template-columns: repeat(3, 1fr);
+}
+
+.grid-4 {
+  grid-template-columns: repeat(4, 1fr);
+}
+
+/* Responsive breakpoints */
+@media (max-width: 1200px) {
+  .grid-4 {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 800px) {
+  .grid-2,
+  .grid-3,
+  .grid-4 {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* Terminal-style grid container */
+.grid-container {
+  width: 100%;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: var(--space-1);
+}
+
+/* Grid with borders */
+.grid-bordered {
+  border: var(--border-width) solid var(--color-border-tertiary);
+}
+
+.grid-bordered > * {
+  border-right: var(--border-width) solid var(--color-border-tertiary);
+  border-bottom: var(--border-width) solid var(--color-border-tertiary);
+  padding: var(--gap);
+}
+
+/* Sidebar layouts */
+.grid-sidebar-left {
+  grid-template-columns: 250px 1fr;
+}
+
+.grid-sidebar-right {
+  grid-template-columns: 1fr 250px;
+}
+
+@media (max-width: 800px) {
+  .grid-sidebar-left,
+  .grid-sidebar-right {
+    grid-template-columns: 1fr;
+  }
+}

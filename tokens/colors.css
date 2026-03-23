@@ -1,0 +1,48 @@
+/* Pept Visual System - Color Tokens */
+
+:root {
+  /* Background */
+  --color-bg-page: #000;
+  --color-bg-card: #000;
+  
+  /* Text */
+  --color-text-primary: #fff;
+  --color-text-secondary: #ccc;
+  --color-text-tertiary: #888;
+  --color-text-dim: #555;
+  
+  /* Borders */
+  --color-border-primary: #555;
+  --color-border-secondary: #444;
+  --color-border-tertiary: #333;
+  
+  /* Accents */
+  --color-accent-primary: #40ff40;
+  --color-accent-secondary: #1a3a1a;
+  
+  /* States */
+  --color-hover: #888;
+  --color-active: #aaa;
+  --color-disabled: #333;
+  
+  /* Semantic */
+  --color-success: #40ff40;
+  --color-warning: #ffaa00;
+  --color-error: #ff4040;
+  --color-info: #4040ff;
+}
+
+/* Utility classes */
+.bg-page { background: var(--color-bg-page); }
+.bg-card { background: var(--color-bg-card); }
+
+.text-primary { color: var(--color-text-primary); }
+.text-secondary { color: var(--color-text-secondary); }
+.text-tertiary { color: var(--color-text-tertiary); }
+.text-dim { color: var(--color-text-dim); }
+
+.border-primary { border-color: var(--color-border-primary); }
+.border-secondary { border-color: var(--color-border-secondary); }
+.border-tertiary { border-color: var(--color-border-tertiary); }
+
+.accent-primary { color: var(--color-accent-primary); }

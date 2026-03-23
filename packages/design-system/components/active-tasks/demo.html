@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Active Tasks - PeptAI</title>
+  <link rel="stylesheet" href="../../tokens/colors.css">
+  <link rel="stylesheet" href="../../tokens/typography.css">
+  <link rel="stylesheet" href="../../tokens/spacing.css">
+  <link rel="stylesheet" href="active-tasks.css">
+  <style>
+    body {
+      background: var(--color-bg-page);
+      color: var(--color-text-primary);
+      padding: var(--space-2);
+    }
+    h1, h2 {
+      color: var(--color-text-primary);
+      margin: var(--space-2) 0 var(--space-1);
+    }
+    h2 {
+      padding-bottom: var(--gap);
+      border-bottom: var(--border-width) dashed var(--color-border-tertiary);
+    }
+    .demo-container {
+      max-width: 800px;
+      margin-bottom: var(--space-2);
+    }
+  </style>
+</head>
+<body>
+  <h1>Active Tasks Component</h1>
+  
+  <h2>List Variant</h2>
+  <div class="demo-container">
+    <div class="active-tasks">
+      <div class="active-tasks-header">
+        <div class="active-tasks-title">Active Tasks</div>
+        <div class="active-tasks-count">4 running</div>
+      </div>
+      <div class="active-tasks-list">
+        <div class="task-item">
+          <div class="task-status running"></div>
+          <div class="task-details">
+            <div class="task-name">Sequence Analysis - Batch 034</div>
+            <div class="task-meta">Started 2h ago • Agent-07</div>
+          </div>
+          <div class="task-progress">67%</div>
+        </div>
+        
+        <div class="task-item">
+          <div class="task-status running"></div>
+          <div class="task-details">
+            <div class="task-name">Binding Affinity Prediction</div>
+            <div class="task-meta">Started 45m ago • Agent-12</div>
+          </div>
+          <div class="task-progress">23%</div>
+        </div>
+        
+        <div class="task-item">
+          <div class="task-status pending"></div>
+          <div class="task-details">
+            <div class="task-name">Structure Optimization</div>
+            <div class="task-meta">Queued • Agent-03</div>
+          </div>
+          <div class="task-progress">Pending</div>
+        </div>
+        
+        <div class="task-item">
+          <div class="task-status complete"></div>
+          <div class="task-details">
+            <div class="task-name">Toxicity Screening</div>
+            <div class="task-meta">Completed 1h ago • Agent-09</div>
+          </div>
+          <div class="task-progress">100%</div>
+        </div>
+      </div>
+    </div>
+  </div>
+  
+  <h2>Grid Variant</h2>
+  <div class="demo-container">
+    <div class="active-tasks">
+      <div class="active-tasks-header">
+        <div class="active-tasks-title">Active Tasks</div>
+        <div class="active-tasks-count">4 tasks</div>
+      </div>
+      <div class="active-tasks-grid">
+        <div class="task-card">
+          <div class="task-card-header">
+            <div class="task-status running"></div>
+            <div class="task-card-name">Discovery Run #42</div>
+          </div>
+          <div class="task-card-meta">Agent-07 • 2h ago</div>
+          <div class="task-card-progress">Progress: 67%</div>
+        </div>
+        
+        <div class="task-card">
+          <div class="task-card-header">
+            <div class="task-status running"></div>
+            <div class="task-card-name">Affinity Analysis</div>
+          </div>
+          <div class="task-card-meta">Agent-12 • 45m ago</div>
+          <div class="task-card-progress">Progress: 23%</div>
+        </div>
+        
+        <div class="task-card">
+          <div class="task-card-header">
+            <div class="task-status pending"></div>
+            <div class="task-card-name">Structure Opt</div>
+          </div>
+          <div class="task-card-meta">Agent-03 • Queued</div>
+          <div class="task-card-progress">Waiting...</div>
+        </div>
+        
+        <div class="task-card">
+          <div class="task-card-header">
+            <div class="task-status complete"></div>
+            <div class="task-card-name">Toxicity Screen</div>
+          </div>
+          <div class="task-card-meta">Agent-09 • 1h ago</div>
+          <div class="task-card-progress">Complete</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</body>
+</html>

@@ -1,0 +1,896 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BIO Metrics</title>
+    <style>
+        :root {
+            --bg-page: #000000;
+            --bg-card: #0a0a0a;
+            --bg-card-inner: #080808;
+            --bg-progress-track: #222222;
+            --text-primary: #ffffff;
+            --text-secondary: #cccccc;
+            --text-muted: #999999;
+            --text-dim: #888888;
+            --text-faint: #777777;
+            --border-primary: #444444;
+            --border-secondary: #555555;
+            --border-subtle: #333333;
+            --font-mono: 'IBM Plex Mono', 'Fira Code', 'JetBrains Mono', 'Courier New', monospace;
+            --gap: 12px;
+            --page-margin: 12px;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html, body {
+            height: 100%;
+            width: 100%;
+            margin: 0;
+            padding: 0;
+            overflow: hidden;
+        }
+
+        body {
+            background: var(--bg-page);
+            color: var(--text-primary);
+            font-family: var(--font-mono);
+            font-size: 13px;
+            font-weight: 400;
+            line-height: 1.5;
+        }
+
+        .container {
+            width: 100%;
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            padding: 12px;
+            box-sizing: border-box;
+        }
+
+        /* HEADER */
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 10px 16px;
+            border: 1px solid var(--border-subtle);
+            height: 42px;
+            flex-shrink: 0;
+            margin-bottom: var(--gap);
+        }
+
+        .header-left {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .logo {
+            width: 24px;
+            height: 24px;
+            border: 1px solid var(--border-secondary);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 12px;
+        }
+
+        .title {
+            font-size: 14px;
+            font-weight: 700;
+        }
+
+        .header-right {
+            display: flex;
+            gap: 8px;
+        }
+
+        .nav-item {
+            border: 1px solid var(--border-secondary);
+            padding: 6px 12px;
+            height: 28px;
+            display: flex;
+            align-items: center;
+            cursor: pointer;
+            transition: all 0.15s;
+            font-size: 12px;
+        }
+
+        .nav-item:hover {
+            background: var(--text-primary);
+            color: var(--bg-page);
+        }
+
+        /* MAIN GRID */
+        .main-grid {
+            display: grid;
+            grid-template-columns: 480px 555px 1fr;
+            gap: var(--gap);
+            flex: 1 1 auto;
+            min-height: 0;
+            height: 100%;
+            margin-top: 0;
+        }
+
+        .column {
+            display: flex;
+            flex-direction: column;
+            gap: var(--gap);
+            min-height: 0;
+            height: 100%;
+        }
+
+        /* FOOTER */
+        .footer {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 10px 16px;
+            border: 1px solid var(--border-subtle);
+            height: 42px;
+            flex-shrink: 0;
+            margin-top: var(--gap);
+            font-size: 12px;
+        }
+
+        .footer-left {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .footer-right {
+            display: flex;
+            gap: 12px;
+        }
+
+        .footer-link {
+            color: var(--text-primary);
+            text-decoration: none;
+            cursor: pointer;
+        }
+
+        .footer-link:hover {
+            color: var(--text-secondary);
+        }
+
+        /* CARDS */
+        .card {
+            border: 1px solid var(--border-primary);
+            padding: 14px 16px;
+            background: var(--bg-card);
+            display: flex;
+            flex-direction: column;
+            min-height: 0;
+        }
+
+        .card-header {
+            font-size: 14px;
+            font-weight: 700;
+            color: var(--text-primary);
+            margin-bottom: 12px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-shrink: 0;
+        }
+
+        /* HERO */
+        .hero-card {
+            height: 140px;
+            flex-shrink: 0;
+        }
+
+        .hero-title {
+            font-size: 13px;
+            font-weight: 700;
+            margin-bottom: 8px;
+        }
+
+        .hero-description {
+            color: var(--text-secondary);
+            font-size: 12px;
+            line-height: 1.4;
+            margin-bottom: 12px;
+        }
+
+        .hero-actions {
+            display: flex;
+            gap: 12px;
+            font-size: 12px;
+        }
+
+        .action-link {
+            color: var(--text-primary);
+            cursor: pointer;
+            transition: color 0.15s;
+        }
+
+        .action-link:hover {
+            color: var(--text-secondary);
+        }
+
+        /* FEED */
+        .feed-card {
+            flex: 1 1 auto;
+            min-height: 0;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .feed-scroll {
+            overflow-y: auto;
+            overflow-x: hidden;
+            flex: 1;
+            min-height: 0;
+        }
+
+        .feed-item {
+            border: 1px dashed var(--border-secondary);
+            padding: 10px 12px;
+            margin-bottom: 8px;
+        }
+
+        .feed-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-size: 11px;
+            margin-bottom: 6px;
+        }
+
+        .feed-left {
+            color: var(--text-dim);
+        }
+
+        .feed-right {
+            color: var(--text-primary);
+        }
+
+        .feed-body {
+            color: var(--text-muted);
+            font-size: 11px;
+            line-height: 1.4;
+        }
+
+        /* OVERVIEW */
+        .overview-card {
+            flex: 0 0 auto;
+        }
+
+        .metric-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 0;
+            margin-top: 12px;
+        }
+
+        .metric {
+            border: 1px solid var(--border-primary);
+            padding: 16px 14px;
+            background: var(--bg-card);
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            margin-right: -1px;
+            margin-bottom: -1px;
+        }
+
+        .metric-label {
+            font-size: 11px;
+            color: var(--text-dim);
+            margin-bottom: 6px;
+        }
+
+        .metric-value {
+            font-size: 24px;
+            font-weight: 700;
+            color: var(--text-primary);
+        }
+
+        /* CHANNELS */
+        .channels-card {
+            flex: 1 1 auto;
+            min-height: 0;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .list-header {
+            display: flex;
+            gap: 12px;
+            padding-bottom: 8px;
+            border-bottom: 1px solid var(--border-subtle);
+            margin-bottom: 8px;
+            color: var(--text-dim);
+            font-size: 11px;
+            font-weight: 600;
+            flex-shrink: 0;
+        }
+
+        .list-header > div:first-child {
+            flex: 1;
+        }
+
+        .list-scroll {
+            overflow-y: auto;
+            overflow-x: hidden;
+            flex: 1;
+            min-height: 0;
+        }
+
+        .list-item {
+            display: flex;
+            gap: 12px;
+            padding: 6px 0;
+            font-size: 11px;
+            color: var(--text-secondary);
+        }
+
+        .list-item > div:first-child {
+            flex: 1;
+            color: var(--text-primary);
+        }
+
+        /* CONTRIBUTORS */
+        .contributors-card {
+            flex: 1 1 auto;
+            min-height: 0;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .task-scroll {
+            overflow-y: auto;
+            overflow-x: hidden;
+            flex: 1;
+            min-height: 0;
+        }
+
+        .task-card {
+            border: 1px solid var(--border-subtle);
+            padding: 10px 12px;
+            margin-bottom: 8px;
+            background: var(--bg-card-inner);
+        }
+
+        .task-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 6px;
+        }
+
+        .task-name {
+            font-size: 12px;
+            font-weight: 600;
+        }
+
+        .task-description {
+            font-size: 11px;
+            color: var(--text-muted);
+            margin-bottom: 6px;
+        }
+
+        .task-info {
+            font-size: 10px;
+            color: var(--text-faint);
+            margin-bottom: 6px;
+        }
+
+        .progress-row {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .progress-bar {
+            flex: 1;
+            height: 6px;
+            background: var(--bg-progress-track);
+            display: flex;
+            gap: 1px;
+        }
+
+        .progress-segment {
+            width: 9px;
+            height: 6px;
+            background: var(--text-secondary);
+        }
+
+        .progress-segment.filled {
+            background: var(--text-primary);
+        }
+
+        .progress-percent {
+            font-size: 10px;
+            color: var(--text-primary);
+            width: 25px;
+            text-align: right;
+        }
+
+        /* INFO */
+        .info-card {
+            height: 100px;
+            flex-shrink: 0;
+        }
+
+        .info-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 6px;
+            flex: 1;
+        }
+
+        .info-box {
+            border: 1px solid var(--border-primary);
+            padding: 8px 6px;
+            background: var(--bg-card);
+            text-align: center;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            font-size: 10px;
+            color: var(--text-dim);
+            line-height: 1.3;
+        }
+
+        .sort-button {
+            font-size: 11px;
+            color: var(--text-primary);
+            cursor: pointer;
+        }
+
+        .loading {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            height: 100%;
+            color: var(--text-dim);
+        }
+
+        @keyframes pulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.4; }
+        }
+
+        .pulsing {
+            animation: pulse 2s infinite;
+        }
+
+        /* Scrollbar styling */
+        .feed-scroll::-webkit-scrollbar,
+        .list-scroll::-webkit-scrollbar,
+        .task-scroll::-webkit-scrollbar {
+            width: 6px;
+        }
+
+        .feed-scroll::-webkit-scrollbar-track,
+        .list-scroll::-webkit-scrollbar-track,
+        .task-scroll::-webkit-scrollbar-track {
+            background: var(--bg-card);
+        }
+
+        .feed-scroll::-webkit-scrollbar-thumb,
+        .list-scroll::-webkit-scrollbar-thumb,
+        .task-scroll::-webkit-scrollbar-thumb {
+            background: var(--border-primary);
+        }
+
+        .feed-scroll::-webkit-scrollbar-thumb:hover,
+        .list-scroll::-webkit-scrollbar-thumb:hover,
+        .task-scroll::-webkit-scrollbar-thumb:hover {
+            background: var(--border-secondary);
+        }
+
+        /* TABLET (800px - 1679px) */
+        @media (max-width: 1679px) {
+            .main-grid {
+                grid-template-columns: 1fr;
+                grid-template-rows: auto auto auto;
+            }
+
+            .column {
+                display: contents;
+            }
+
+            .hero-card { order: 1; }
+            .overview-card { order: 2; }
+            .feed-card { order: 3; height: 300px; }
+            .channels-card { order: 4; height: 250px; }
+            .contributors-card { order: 5; height: 300px; }
+            .info-card { order: 6; }
+        }
+
+        /* PHONE (≤800px) */
+        @media (max-width: 800px) {
+            body {
+                font-size: 12px;
+            }
+
+            .header {
+                padding: 8px 12px;
+                height: 38px;
+            }
+
+            .title {
+                font-size: 13px;
+            }
+
+            .nav-item {
+                padding: 4px 8px;
+                font-size: 11px;
+                height: 24px;
+            }
+
+            .card {
+                padding: 12px;
+            }
+
+            .card-header {
+                font-size: 13px;
+                margin-bottom: 10px;
+            }
+
+            .hero-card {
+                height: auto;
+                min-height: 120px;
+            }
+
+            .hero-title {
+                font-size: 12px;
+            }
+
+            .hero-description {
+                font-size: 11px;
+            }
+
+            .hero-actions {
+                font-size: 11px;
+                flex-wrap: wrap;
+            }
+
+            .overview-card {
+                height: auto;
+            }
+
+            .metric-grid {
+                gap: 0;
+            }
+
+            .metric {
+                padding: 12px 10px;
+            }
+
+            .metric-label {
+                font-size: 10px;
+            }
+
+            .metric-value {
+                font-size: 20px;
+            }
+
+            .feed-card {
+                height: 250px !important;
+            }
+
+            .channels-card {
+                height: 200px !important;
+            }
+
+            .contributors-card {
+                height: 250px !important;
+            }
+
+            .info-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            .info-box {
+                font-size: 9px;
+                padding: 6px 4px;
+            }
+
+            .footer {
+                height: 38px;
+                padding: 8px 12px;
+                font-size: 11px;
+            }
+        }
+
+        /* PHONE SMALL (≤390px) */
+        @media (max-width: 390px) {
+            :root {
+                --gap: 10px;
+                --page-margin: 10px;
+            }
+
+            body {
+                font-size: 11px;
+            }
+
+            .header {
+                padding: 6px 10px;
+                height: 36px;
+            }
+
+            .logo {
+                width: 20px;
+                height: 20px;
+                font-size: 11px;
+            }
+
+            .title {
+                font-size: 12px;
+            }
+
+            .nav-item {
+                padding: 4px 6px;
+                font-size: 10px;
+            }
+
+            .card {
+                padding: 10px;
+            }
+
+            .feed-item,
+            .task-card {
+                padding: 8px 10px;
+            }
+
+            .footer {
+                height: 36px;
+                padding: 6px 10px;
+                font-size: 10px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <div class="header-left">
+                <div class="logo">▣</div>
+                <div class="title">BIO Metrics</div>
+            </div>
+            <div class="header-right">
+                <div class="nav-item" onclick="location.reload()">Refresh</div>
+                <div class="nav-item" onclick="window.open('./last-24-hours.json')">Export</div>
+            </div>
+        </div>
+
+        <div id="dashboard" class="loading">
+            <div class="pulsing">Loading metrics...</div>
+        </div>
+
+        <div class="footer">
+            <div class="footer-left">
+                <div class="logo">▣</div>
+                <span>BIO Protocol</span>
+            </div>
+            <div class="footer-right">
+                <a class="footer-link" href="https://bio.xyz" target="_blank">[ bio.xyz ]</a>
+                <a class="footer-link" href="https://github.com/bio-xyz" target="_blank">[ GitHub ]</a>
+                <a class="footer-link" href="https://docs.bio.xyz" target="_blank">[ Docs ]</a>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const METRICS_FILE = './last-24-hours.json';
+        const REFRESH_INTERVAL = 30000;
+
+        async function loadMetrics() {
+            try {
+                const response = await fetch(METRICS_FILE + '?t=' + Date.now());
+                const data = await response.json();
+                renderDashboard(data);
+            } catch (error) {
+                document.getElementById('dashboard').innerHTML = `
+                    <div class="card">
+                        <div class="card-header">Error</div>
+                        <div>Failed to load: ${error.message}</div>
+                    </div>
+                `;
+            }
+        }
+
+        function renderProgressBar(percentage, segments = 10) {
+            const filled = Math.round((percentage / 100) * segments);
+            let html = '<div class="progress-bar">';
+            for (let i = 0; i < segments; i++) {
+                html += `<div class="progress-segment ${i < filled ? 'filled' : ''}"></div>`;
+            }
+            html += '</div>';
+            return html;
+        }
+
+        function renderDashboard(data) {
+            const channelEntries = Object.entries(data.channel_stats)
+                .sort((a, b) => b[1].total_messages - a[1].total_messages);
+
+            const userEntries = Object.entries(data.user_stats)
+                .sort((a, b) => b[1].total_messages - a[1].total_messages);
+
+            const totalThreads = Object.values(data.channel_stats)
+                .reduce((sum, s) => sum + s.threads_started, 0);
+
+            const hero = `
+                <div class="card hero-card">
+                    <div class="card-header">Live Activity</div>
+                    <div class="hero-title">BIO Protocol Slack</div>
+                    <div class="hero-description">
+                        Monitoring ${data.active_channels} channels across workspace. 
+                        ${data.unique_users} active contributors. 
+                        Real-time tracking of messages, threads, and engagement patterns.
+                    </div>
+                    <div class="hero-actions">
+                        <span class="action-link">[ View Channels ]</span>
+                        <span class="action-link">[ Export ]</span>
+                        <span class="action-link">[ Settings ]</span>
+                    </div>
+                </div>
+            `;
+
+            const feed = `
+                <div class="card feed-card">
+                    <div class="card-header">
+                        <span>Activity Feed</span>
+                        <span>Live</span>
+                    </div>
+                    <div class="feed-scroll">
+                        ${channelEntries.slice(0, 20).map(([name, stats]) => `
+                            <div class="feed-item">
+                                <div class="feed-header">
+                                    <span class="feed-left">#${name} · ${new Date().toLocaleTimeString('en-US', {hour12: false, hour: '2-digit', minute: '2-digit'})}</span>
+                                    <span class="feed-right">Active</span>
+                                </div>
+                                <div class="feed-body">
+                                    ${stats.total_messages} messages from ${stats.unique_users} users. 
+                                    ${stats.threads_started} threads.
+                                </div>
+                            </div>
+                        `).join('')}
+                    </div>
+                </div>
+            `;
+
+            const overview = `
+                <div class="card overview-card">
+                    <div class="card-header">Overview — Last 24h</div>
+                    <div class="metric-grid">
+                        <div class="metric">
+                            <div class="metric-value">${data.total_messages}</div>
+                            <div class="metric-label">Messages</div>
+                        </div>
+                        <div class="metric">
+                            <div class="metric-value">${data.unique_users}</div>
+                            <div class="metric-label">Active Users</div>
+                        </div>
+                        <div class="metric">
+                            <div class="metric-value">${data.active_channels}</div>
+                            <div class="metric-label">Channels</div>
+                        </div>
+                        <div class="metric">
+                            <div class="metric-value">${totalThreads}</div>
+                            <div class="metric-label">Threads</div>
+                        </div>
+                    </div>
+                </div>
+            `;
+
+            const channels = `
+                <div class="card channels-card">
+                    <div class="card-header">
+                        <span>Channel Activity</span>
+                        <span class="sort-button">[ Sort ]</span>
+                    </div>
+                    <div class="list-header">
+                        <div>Channel</div>
+                        <div>Messages</div>
+                        <div>Share</div>
+                        <div>Threads</div>
+                    </div>
+                    <div class="list-scroll">
+                        ${channelEntries.map(([name, stats]) => {
+                            const pct = (stats.total_messages / data.total_messages * 100).toFixed(1);
+                            return `
+                                <div class="list-item">
+                                    <div>#${name}</div>
+                                    <div>${stats.total_messages}</div>
+                                    <div>${pct}%</div>
+                                    <div>${stats.threads_started}</div>
+                                </div>
+                            `;
+                        }).join('')}
+                    </div>
+                </div>
+            `;
+
+            const users = `
+                <div class="card contributors-card">
+                    <div class="card-header">Top Contributors</div>
+                    <div class="task-scroll">
+                        ${userEntries.slice(0, 20).map(([id, stats]) => {
+                            const progress = (stats.total_messages / userEntries[0][1].total_messages * 100);
+                            return `
+                                <div class="task-card">
+                                    <div class="task-header">
+                                        <div class="task-name">${id}</div>
+                                    </div>
+                                    <div class="task-description">
+                                        ${stats.total_messages} messages across ${stats.channels} channels
+                                    </div>
+                                    <div class="task-info">
+                                        ${stats.threads_started} threads started
+                                    </div>
+                                    <div class="progress-row">
+                                        ${renderProgressBar(progress)}
+                                        <div class="progress-percent">${stats.participation_pct.toFixed(0)}%</div>
+                                    </div>
+                                </div>
+                            `;
+                        }).join('')}
+                    </div>
+                </div>
+            `;
+
+            const info = `
+                <div class="card info-card">
+                    <div class="card-header">
+                        <span>Quick Stats</span>
+                        <span class="sort-button">[ Docs ]</span>
+                    </div>
+                    <div class="info-grid">
+                        <div class="info-box">
+                            <div>Real-time</div>
+                            <div>Monitoring</div>
+                        </div>
+                        <div class="info-box">
+                            <div>Auto</div>
+                            <div>Refresh</div>
+                        </div>
+                        <div class="info-box">
+                            <div>Live</div>
+                            <div>Updates</div>
+                        </div>
+                        <div class="info-box">
+                            <div>Export</div>
+                            <div>Ready</div>
+                        </div>
+                    </div>
+                </div>
+            `;
+
+            document.getElementById('dashboard').innerHTML = `
+                <div class="main-grid">
+                    <div class="column">
+                        ${hero}
+                        ${feed}
+                    </div>
+                    <div class="column">
+                        ${overview}
+                        ${channels}
+                    </div>
+                    <div class="column">
+                        ${users}
+                        ${info}
+                    </div>
+                </div>
+            `;
+        }
+
+        loadMetrics();
+        setInterval(loadMetrics, REFRESH_INTERVAL);
+    </script>
+</body>
+</html>

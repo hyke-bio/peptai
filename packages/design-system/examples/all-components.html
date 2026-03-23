@@ -1,0 +1,437 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>PeptAI Design System - All Components</title>
+  
+  <!-- Tokens -->
+  <link rel="stylesheet" href="../tokens/colors.css">
+  <link rel="stylesheet" href="../tokens/typography.css">
+  <link rel="stylesheet" href="../tokens/spacing.css">
+  
+  <!-- Components -->
+  <link rel="stylesheet" href="../components/grid/grid.css">
+  <link rel="stylesheet" href="../components/topbar/topbar.css">
+  <link rel="stylesheet" href="../components/footer/footer.css">
+  <link rel="stylesheet" href="../components/metrics/metric.css">
+  <link rel="stylesheet" href="../components/agent-running/agent-running.css">
+  <link rel="stylesheet" href="../components/leaderboard/leaderboard.css">
+  <link rel="stylesheet" href="../components/discovery-pipeline/discovery-pipeline.css">
+  <link rel="stylesheet" href="../components/active-tasks/active-tasks.css">
+  <link rel="stylesheet" href="../components/node/node.css">
+  <link rel="stylesheet" href="../components/buttons/button.css">
+  <link rel="stylesheet" href="../components/options/options.css">
+  <link rel="stylesheet" href="../components/loader/loader.css">
+  <link rel="stylesheet" href="../components/message/message.css">
+  <link rel="stylesheet" href="../components/tag/tag.css">
+  <link rel="stylesheet" href="../components/how-peptai-works/how-peptai-works.css">
+  <link rel="stylesheet" href="../components/cards/card.css">
+  
+  <style>
+    body {
+      background: var(--color-bg-page);
+      color: var(--color-text-primary);
+      margin: 0;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+    }
+    
+    .main-content {
+      flex: 1;
+      max-width: 1400px;
+      margin: 0 auto;
+      width: 100%;
+      padding: var(--space-2);
+    }
+    
+    h1 {
+      font-size: 32px;
+      text-align: center;
+      margin: var(--space-2) 0;
+      padding: var(--space-2) 0;
+      border-bottom: var(--border-width) solid var(--color-border-tertiary);
+    }
+    
+    .section {
+      margin-bottom: var(--space-4);
+    }
+    
+    .section-title {
+      font-size: var(--text-xl);
+      color: var(--color-accent-primary);
+      margin: var(--space-2) 0 var(--space-1);
+      padding-bottom: var(--gap);
+      border-bottom: var(--border-width) dashed var(--color-border-tertiary);
+      text-transform: uppercase;
+    }
+    
+    .component-label {
+      font-size: var(--text-xs);
+      color: var(--color-text-dim);
+      margin-bottom: 8px;
+      text-transform: uppercase;
+    }
+    
+    .demo-box {
+      margin-bottom: var(--space-2);
+    }
+    
+    .inline-demo {
+      display: flex;
+      gap: var(--gap);
+      flex-wrap: wrap;
+      margin-bottom: var(--space-1);
+    }
+  </style>
+</head>
+<body>
+  <!-- Topbar -->
+  <nav class="topbar">
+    <div class="topbar-title">PeptAI Design System</div>
+    <div class="topbar-nav">
+      <a href="#layout" class="topbar-link active">Layout</a>
+      <a href="#data" class="topbar-link">Data</a>
+      <a href="#interactive" class="topbar-link">Interactive</a>
+      <a href="#ui" class="topbar-link">UI</a>
+      <a href="#content" class="topbar-link">Content</a>
+    </div>
+  </nav>
+  
+  <div class="main-content">
+    <h1>PeptAI Component Library</h1>
+    <p style="text-align: center; color: var(--color-text-tertiary); margin-bottom: var(--space-3);">
+      19 Terminal-Style Components • IBM Plex Mono • Biometrics Aesthetic
+    </p>
+    
+    <!-- LAYOUT COMPONENTS -->
+    <section class="section" id="layout">
+      <h2 class="section-title">01. Layout Components</h2>
+      
+      <div class="demo-box">
+        <div class="component-label">Grid System</div>
+        <div class="grid grid-3">
+          <div style="padding: var(--gap); border: var(--border-width) solid var(--color-border-tertiary);">Col 1</div>
+          <div style="padding: var(--gap); border: var(--border-width) solid var(--color-border-tertiary);">Col 2</div>
+          <div style="padding: var(--gap); border: var(--border-width) solid var(--color-border-tertiary);">Col 3</div>
+        </div>
+      </div>
+      
+      <div class="demo-box">
+        <div class="component-label">Metrics Bar</div>
+        <div class="metric-grid">
+          <div class="metric">
+            <div class="metric-label">Active Agents</div>
+            <div class="metric-value">7</div>
+          </div>
+          <div class="metric">
+            <div class="metric-label">Total Tasks</div>
+            <div class="metric-value">42</div>
+          </div>
+          <div class="metric">
+            <div class="metric-label">Success Rate</div>
+            <div class="metric-value">98.7%</div>
+          </div>
+        </div>
+      </div>
+    </section>
+    
+    <!-- DATA DISPLAY COMPONENTS -->
+    <section class="section" id="data">
+      <h2 class="section-title">02. Data Display Components</h2>
+      
+      <div class="demo-box">
+        <div class="component-label">Agent Running</div>
+        <div class="agent-running">
+          <div class="agent-running-indicator">
+            <div class="agent-running-pulse"></div>
+            <span class="agent-running-status">Running</span>
+          </div>
+          <div class="agent-running-details">
+            <div class="agent-running-name">PeptAI-Discovery-01</div>
+            <div class="agent-running-task">Analyzing candidate sequences...</div>
+          </div>
+          <div class="agent-running-metrics">
+            <div class="agent-running-metric">
+              <span class="agent-running-metric-label">Runtime:</span>
+              <span class="agent-running-metric-value">02:34:12</span>
+            </div>
+            <div class="agent-running-metric">
+              <span class="agent-running-metric-label">Progress:</span>
+              <span class="agent-running-metric-value">67%</span>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <div class="demo-box">
+        <div class="component-label">Pipeline Nodes</div>
+        <div class="inline-demo">
+          <div class="node node-sm complete">
+            <div class="node-icon">✓</div>
+            <div class="node-label">Input</div>
+          </div>
+          <div class="node node-sm active">
+            <div class="node-icon">⟳</div>
+            <div class="node-label">Analyze</div>
+          </div>
+          <div class="node node-sm pending">
+            <div class="node-icon">○</div>
+            <div class="node-label">Output</div>
+          </div>
+        </div>
+      </div>
+      
+      <div class="demo-box">
+        <div class="component-label">Discovery Pipeline</div>
+        <div class="discovery-pipeline">
+          <div class="pipeline-stage">
+            <div class="pipeline-node complete"><span>✓</span></div>
+            <div class="pipeline-label">Input</div>
+            <div class="pipeline-count">1,000</div>
+          </div>
+          <div class="pipeline-arrow active"></div>
+          <div class="pipeline-stage">
+            <div class="pipeline-node active"><span>⟳</span></div>
+            <div class="pipeline-label">Analyze</div>
+            <div class="pipeline-count">623</div>
+          </div>
+          <div class="pipeline-arrow"></div>
+          <div class="pipeline-stage">
+            <div class="pipeline-node pending"><span>○</span></div>
+            <div class="pipeline-label">Output</div>
+            <div class="pipeline-count">—</div>
+          </div>
+        </div>
+      </div>
+      
+      <div class="demo-box">
+        <div class="component-label">Active Tasks (List)</div>
+        <div class="active-tasks">
+          <div class="active-tasks-header">
+            <div class="active-tasks-title">Active Tasks</div>
+            <div class="active-tasks-count">3 running</div>
+          </div>
+          <div class="active-tasks-list">
+            <div class="task-item">
+              <div class="task-status running"></div>
+              <div class="task-details">
+                <div class="task-name">Sequence Analysis - Batch 034</div>
+                <div class="task-meta">Started 2h ago • Agent-07</div>
+              </div>
+              <div class="task-progress">67%</div>
+            </div>
+            <div class="task-item">
+              <div class="task-status running"></div>
+              <div class="task-details">
+                <div class="task-name">Binding Affinity Prediction</div>
+                <div class="task-meta">Started 45m ago • Agent-12</div>
+              </div>
+              <div class="task-progress">23%</div>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <div class="demo-box">
+        <div class="component-label">Candidate Leaderboard</div>
+        <div class="leaderboard">
+          <div class="leaderboard-header">
+            <div>Rank</div>
+            <div>Candidate</div>
+            <div>Score</div>
+            <div>Status</div>
+          </div>
+          <div class="leaderboard-item">
+            <div class="leaderboard-rank">#1</div>
+            <div>
+              <div class="leaderboard-name">PEPT-2024-A1</div>
+              <div class="leaderboard-id">seq_9a8f7b6c</div>
+            </div>
+            <div class="leaderboard-score">98.7</div>
+            <div class="leaderboard-status">
+              <span class="leaderboard-status-badge active">Active</span>
+            </div>
+          </div>
+          <div class="leaderboard-item">
+            <div class="leaderboard-rank">#2</div>
+            <div>
+              <div class="leaderboard-name">PEPT-2024-B3</div>
+              <div class="leaderboard-id">seq_7d6e5f4g</div>
+            </div>
+            <div class="leaderboard-score">96.2</div>
+            <div class="leaderboard-status">
+              <span class="leaderboard-status-badge active">Active</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+    
+    <!-- INTERACTIVE COMPONENTS -->
+    <section class="section" id="interactive">
+      <h2 class="section-title">03. Interactive Components</h2>
+      
+      <div class="demo-box">
+        <div class="component-label">Buttons</div>
+        <div class="inline-demo">
+          <button class="btn btn-primary">Primary</button>
+          <button class="btn btn-secondary">Secondary</button>
+          <button class="btn btn-tertiary">Tertiary</button>
+        </div>
+      </div>
+      
+      <div class="demo-box">
+        <div class="component-label">Options Menu</div>
+        <div class="options-inline">
+          <div class="options-item">List</div>
+          <div class="options-item selected">Grid</div>
+          <div class="options-item">Table</div>
+        </div>
+      </div>
+    </section>
+    
+    <!-- UI COMPONENTS -->
+    <section class="section" id="ui">
+      <h2 class="section-title">04. UI Components</h2>
+      
+      <div class="demo-box">
+        <div class="component-label">Loaders</div>
+        <div class="inline-demo">
+          <div style="display: flex; align-items: center; gap: 8px;">
+            <span class="loader"></span>
+            <span>ASCII Spinner</span>
+          </div>
+          <div style="display: flex; align-items: center; gap: 8px;">
+            <div class="loader-dots">
+              <span></span>
+              <span></span>
+              <span></span>
+            </div>
+            <span>Dot Loader</span>
+          </div>
+        </div>
+      </div>
+      
+      <div class="demo-box">
+        <div class="component-label">Tags</div>
+        <div class="inline-demo">
+          <span class="tag">Default</span>
+          <span class="tag tag-success">Success</span>
+          <span class="tag tag-warning">Warning</span>
+          <span class="tag tag-error">Error</span>
+          <span class="tag tag-dot tag-success">Active</span>
+        </div>
+      </div>
+      
+      <div class="demo-box">
+        <div class="component-label">Messages</div>
+        <div class="message success">
+          <div class="message-icon">✓</div>
+          <div class="message-content">
+            <div class="message-title">Success</div>
+            <div class="message-body">Analysis completed successfully.</div>
+          </div>
+          <div class="message-close">×</div>
+        </div>
+        <div class="message error">
+          <div class="message-icon">✗</div>
+          <div class="message-content">
+            <div class="message-title">Error</div>
+            <div class="message-body">Connection failed. Please try again.</div>
+          </div>
+          <div class="message-close">×</div>
+        </div>
+      </div>
+      
+      <div class="demo-box">
+        <div class="component-label">Card</div>
+        <div class="card">
+          <div class="card-header">Analysis Results</div>
+          <div class="card-body">
+            <p>Total sequences: 1,234</p>
+            <p>Candidates identified: 87</p>
+          </div>
+        </div>
+      </div>
+    </section>
+    
+    <!-- CONTENT COMPONENTS -->
+    <section class="section" id="content">
+      <h2 class="section-title">05. Content Components</h2>
+      
+      <div class="demo-box">
+        <div class="component-label">How PeptAI Works</div>
+        <div class="how-it-works">
+          <div class="how-it-works-header">
+            <div class="how-it-works-title">How PeptAI Works</div>
+            <div class="how-it-works-subtitle">AI-powered peptide discovery</div>
+          </div>
+          <div class="how-it-works-steps">
+            <div class="step">
+              <div class="step-icon">🔬</div>
+              <div class="step-number">1</div>
+              <div class="step-title">Input</div>
+              <div class="step-description">Upload sequences or parameters</div>
+            </div>
+            <div class="step">
+              <div class="step-icon">🤖</div>
+              <div class="step-number">2</div>
+              <div class="step-title">Analyze</div>
+              <div class="step-description">AI agents analyze candidates</div>
+            </div>
+            <div class="step">
+              <div class="step-icon">📊</div>
+              <div class="step-number">3</div>
+              <div class="step-title">Results</div>
+              <div class="step-description">Ranked peptide candidates</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  </div>
+  
+  <!-- Footer -->
+  <footer class="footer">
+    <div class="footer-left">
+      <span class="footer-copyright">© 2025 PeptAI</span>
+      <span class="footer-divider">|</span>
+      <span>19 Components</span>
+      <span class="footer-divider">|</span>
+      <span>100% Complete</span>
+    </div>
+    <div class="footer-right">
+      <a href="../COMPONENTS.md" class="footer-link">Documentation</a>
+      <span class="footer-divider">|</span>
+      <a href="https://www.figma.com/design/ZMN5oAtfAkHZqxlWn0iqQG" class="footer-link">Figma</a>
+    </div>
+  </footer>
+  
+  <script>
+    // Smooth scroll for navigation
+    document.querySelectorAll('.topbar-link').forEach(link => {
+      link.addEventListener('click', function(e) {
+        e.preventDefault();
+        const targetId = this.getAttribute('href').substring(1);
+        const target = document.getElementById(targetId);
+        if (target) {
+          target.scrollIntoView({ behavior: 'smooth' });
+          
+          // Update active state
+          document.querySelectorAll('.topbar-link').forEach(l => l.classList.remove('active'));
+          this.classList.add('active');
+        }
+      });
+    });
+    
+    // Close messages
+    document.querySelectorAll('.message-close').forEach(close => {
+      close.addEventListener('click', function() {
+        this.closest('.message').style.display = 'none';
+      });
+    });
+  </script>
+</body>
+</html>

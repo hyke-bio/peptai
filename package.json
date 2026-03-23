@@ -1,0 +1,34 @@
+{
+  "name": "@hyke-bio/peptai",
+  "version": "1.0.0",
+  "description": "PeptAI visual system monorepo with design components and Pep Agent character",
+  "private": true,
+  "workspaces": [
+    "packages/*"
+  ],
+  "scripts": {
+    "dev": "python3 -m http.server 8200 --bind 0.0.0.0",
+    "dev:pep": "cd packages/pep-agent && python3 -m http.server 8100 --bind 0.0.0.0",
+    "deploy": "vercel --prod",
+    "build": "echo 'Building all packages...'",
+    "test": "echo 'Testing all packages...'"
+  },
+  "keywords": [
+    "monorepo",
+    "design-system",
+    "components",
+    "terminal",
+    "dashboard",
+    "peptai",
+    "pep-agent",
+    "character"
+  ],
+  "author": "Hyke",
+  "repository": {
+    "type": "git",
+    "url": "github:hyke-bio/peptai"
+  },
+  "engines": {
+    "node": ">=18"
+  }
+}

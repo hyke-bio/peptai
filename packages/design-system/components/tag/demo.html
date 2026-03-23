@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Tag - PeptAI</title>
+  <link rel="stylesheet" href="../../tokens/colors.css">
+  <link rel="stylesheet" href="../../tokens/typography.css">
+  <link rel="stylesheet" href="../../tokens/spacing.css">
+  <link rel="stylesheet" href="tag.css">
+  <style>
+    body {
+      background: var(--color-bg-page);
+      color: var(--color-text-primary);
+      padding: var(--space-2);
+    }
+    h1, h2 {
+      color: var(--color-text-primary);
+      margin: var(--space-2) 0 var(--space-1);
+    }
+    h2 {
+      padding-bottom: var(--gap);
+      border-bottom: var(--border-width) dashed var(--color-border-tertiary);
+    }
+    .demo-row {
+      display: flex;
+      gap: var(--gap);
+      margin-bottom: var(--space-1);
+      flex-wrap: wrap;
+      align-items: center;
+    }
+  </style>
+</head>
+<body>
+  <h1>Tag Component</h1>
+  
+  <h2>Default</h2>
+  <div class="demo-row">
+    <span class="tag">Default</span>
+    <span class="tag">Peptide</span>
+    <span class="tag">AI</span>
+  </div>
+  
+  <h2>Semantic Variants</h2>
+  <div class="demo-row">
+    <span class="tag tag-success">Active</span>
+    <span class="tag tag-warning">Pending</span>
+    <span class="tag tag-error">Failed</span>
+    <span class="tag tag-info">Info</span>
+  </div>
+  
+  <h2>With Dot Indicator</h2>
+  <div class="demo-row">
+    <span class="tag tag-dot tag-success">Running</span>
+    <span class="tag tag-dot tag-warning">Waiting</span>
+    <span class="tag tag-dot tag-error">Error</span>
+  </div>
+  
+  <h2>Sizes</h2>
+  <div class="demo-row">
+    <span class="tag tag-sm">Small</span>
+    <span class="tag">Default</span>
+    <span class="tag tag-lg">Large</span>
+  </div>
+  
+  <h2>In Context</h2>
+  <p>
+    Sequence <span class="tag">PEPT-2024-A1</span> has status 
+    <span class="tag tag-dot tag-success">Active</span> with confidence 
+    <span class="tag tag-info">98.7%</span>
+  </p>
+</body>
+</html>

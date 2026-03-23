@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Buttons - PeptAI</title>
+  <link rel="stylesheet" href="../../tokens/colors.css">
+  <link rel="stylesheet" href="../../tokens/typography.css">
+  <link rel="stylesheet" href="../../tokens/spacing.css">
+  <link rel="stylesheet" href="button.css">
+  <style>
+    body {
+      background: var(--color-bg-page);
+      color: var(--color-text-primary);
+      padding: var(--space-2);
+    }
+    h1, h2 {
+      color: var(--color-text-primary);
+      margin: var(--space-2) 0 var(--space-1);
+    }
+    h2 {
+      padding-bottom: var(--gap);
+      border-bottom: var(--border-width) dashed var(--color-border-tertiary);
+    }
+    .demo-row {
+      display: flex;
+      gap: var(--gap);
+      margin-bottom: var(--space-1);
+      flex-wrap: wrap;
+    }
+  </style>
+</head>
+<body>
+  <h1>Button Component</h1>
+  
+  <h2>Variants</h2>
+  <div class="demo-row">
+    <button class="btn btn-primary">Primary Button</button>
+    <button class="btn btn-secondary">Secondary Button</button>
+    <button class="btn btn-tertiary">Tertiary Button</button>
+  </div>
+  
+  <h2>Sizes</h2>
+  <div class="demo-row">
+    <button class="btn btn-primary btn-sm">Small</button>
+    <button class="btn btn-primary">Default</button>
+    <button class="btn btn-primary btn-lg">Large</button>
+  </div>
+  
+  <h2>States</h2>
+  <div class="demo-row">
+    <button class="btn btn-primary">Normal</button>
+    <button class="btn btn-primary" disabled>Disabled</button>
+  </div>
+  
+  <h2>All Combinations</h2>
+  <div class="demo-row">
+    <button class="btn btn-primary btn-sm">Primary Small</button>
+    <button class="btn btn-secondary btn-sm">Secondary Small</button>
+    <button class="btn btn-tertiary btn-sm">Tertiary Small</button>
+  </div>
+  <div class="demo-row">
+    <button class="btn btn-primary">Primary Default</button>
+    <button class="btn btn-secondary">Secondary Default</button>
+    <button class="btn btn-tertiary">Tertiary Default</button>
+  </div>
+  <div class="demo-row">
+    <button class="btn btn-primary btn-lg">Primary Large</button>
+    <button class="btn btn-secondary btn-lg">Secondary Large</button>
+    <button class="btn btn-tertiary btn-lg">Tertiary Large</button>
+  </div>
+</body>
+</html>

@@ -1,0 +1,340 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Pep Agent</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+    
+    body {
+      background: #000;
+      color: #fff;
+      font-family: 'IBM Plex Mono', 'Courier New', monospace;
+      font-size: 13px;
+      font-weight: 400;
+      line-height: 1.5;
+      padding: 12px;
+    }
+    
+    .container {
+      max-width: 1400px;
+      margin: 0 auto;
+    }
+    
+    .header {
+      margin-bottom: 24px;
+      padding-bottom: 12px;
+      border-bottom: 1px dashed #333;
+    }
+    
+    .title {
+      font-size: 16px;
+      font-weight: 400;
+      margin-bottom: 4px;
+    }
+    
+    .subtitle {
+      font-size: 13px;
+      color: #888;
+    }
+    
+    .section {
+      margin-bottom: 24px;
+    }
+    
+    .section-header {
+      font-size: 13px;
+      font-weight: 400;
+      color: #fff;
+      margin-bottom: 12px;
+      padding: 8px 0;
+      border-top: 1px dashed #333;
+      border-bottom: 1px dashed #333;
+    }
+    
+    .grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
+    }
+    
+    .card {
+      background: #000;
+      border: 1px solid #333;
+      padding: 16px;
+    }
+    
+    .card-header {
+      font-size: 13px;
+      color: #fff;
+      margin-bottom: 12px;
+    }
+    
+    .preview {
+      text-align: center;
+      padding: 40px 20px;
+      background: #000;
+      border: 1px solid #333;
+    }
+    
+    .preview img {
+      width: 100%;
+      max-width: 200px;
+      height: auto;
+      image-rendering: pixelated;
+    }
+    
+    .parts-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 12px;
+      margin-top: 12px;
+    }
+    
+    .part {
+      text-align: center;
+      padding: 16px;
+      background: #000;
+      border: 1px solid #333;
+    }
+    
+    .part img {
+      width: 100%;
+      max-width: 80px;
+      height: auto;
+      margin-bottom: 8px;
+      image-rendering: pixelated;
+    }
+    
+    .part-label {
+      font-size: 11px;
+      color: #888;
+      text-transform: uppercase;
+    }
+    
+    .metric-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 12px;
+      margin-top: 12px;
+    }
+    
+    .metric {
+      padding: 12px;
+      background: #000;
+      border: 1px solid #333;
+    }
+    
+    .metric-label {
+      font-size: 11px;
+      color: #888;
+      margin-bottom: 4px;
+    }
+    
+    .metric-value {
+      font-size: 16px;
+      color: #fff;
+    }
+    
+    .color-row {
+      display: flex;
+      gap: 12px;
+      margin-top: 12px;
+    }
+    
+    .color-item {
+      flex: 1;
+      padding: 12px;
+      background: #000;
+      border: 1px solid #333;
+    }
+    
+    .color-swatch {
+      width: 100%;
+      height: 40px;
+      margin-bottom: 8px;
+      border: 1px solid #333;
+    }
+    
+    .color-label {
+      font-size: 11px;
+      color: #888;
+      margin-bottom: 2px;
+    }
+    
+    .color-hex {
+      font-size: 13px;
+      color: #fff;
+    }
+    
+    .links {
+      display: flex;
+      gap: 12px;
+      margin-top: 12px;
+    }
+    
+    .link {
+      flex: 1;
+      padding: 10px;
+      text-align: center;
+      background: #000;
+      border: 1px solid #555;
+      color: #fff;
+      text-decoration: none;
+      font-size: 12px;
+      transition: border-color 0.2s;
+    }
+    
+    .link:hover {
+      border-color: #888;
+    }
+    
+    @media (max-width: 1100px) {
+      .grid {
+        grid-template-columns: 1fr;
+      }
+      
+      .parts-grid {
+        grid-template-columns: repeat(2, 1fr);
+      }
+      
+      .metric-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+    
+    @media (max-width: 600px) {
+      body {
+        font-size: 12px;
+      }
+      
+      .parts-grid {
+        grid-template-columns: 1fr;
+      }
+      
+      .color-row {
+        flex-direction: column;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="header">
+      <div class="title">[ PEP AGENT ]</div>
+      <div class="subtitle">Bio Protocol mascot character system</div>
+    </div>
+    
+    <div class="section">
+      <div class="grid">
+        <div class="card">
+          <div class="card-header">[ CHARACTER ]</div>
+          <div class="preview">
+            <img src="assembled/pep-agent-default.svg" alt="Pep Agent">
+          </div>
+        </div>
+        
+        <div class="card">
+          <div class="card-header">[ OVERVIEW ]</div>
+          
+          <div class="metric-grid">
+            <div class="metric">
+              <div class="metric-label">Type</div>
+              <div class="metric-value">Minimal</div>
+            </div>
+            <div class="metric">
+              <div class="metric-label">Style</div>
+              <div class="metric-value">Geometric</div>
+            </div>
+            <div class="metric">
+              <div class="metric-label">Format</div>
+              <div class="metric-value">SVG</div>
+            </div>
+          </div>
+          
+          <div class="metric-grid" style="margin-top: 12px;">
+            <div class="metric">
+              <div class="metric-label">Head</div>
+              <div class="metric-value">1 part</div>
+            </div>
+            <div class="metric">
+              <div class="metric-label">Body</div>
+              <div class="metric-value">1 part</div>
+            </div>
+            <div class="metric">
+              <div class="metric-label">Limbs</div>
+              <div class="metric-value">4 parts</div>
+            </div>
+          </div>
+          
+          <div class="metric" style="margin-top: 12px;">
+            <div class="metric-label">Total Size</div>
+            <div class="metric-value">~8KB</div>
+          </div>
+        </div>
+      </div>
+    </div>
+    
+    <div class="section">
+      <div class="section-header">[ MODULAR PARTS ]</div>
+      
+      <div class="parts-grid">
+        <div class="part">
+          <img src="sprites/head/pep-head-default.svg" alt="Head">
+          <div class="part-label">Head</div>
+        </div>
+        <div class="part">
+          <img src="sprites/body/pep-body.svg" alt="Body">
+          <div class="part-label">Body</div>
+        </div>
+        <div class="part">
+          <img src="sprites/arms/pep-arm.svg" alt="Arm">
+          <div class="part-label">Arm</div>
+        </div>
+        <div class="part">
+          <img src="sprites/legs/pep-leg.svg" alt="Leg">
+          <div class="part-label">Leg</div>
+        </div>
+      </div>
+    </div>
+    
+    <div class="section">
+      <div class="section-header">[ COLOR PALETTE ]</div>
+      
+      <div class="color-row">
+        <div class="color-item">
+          <div class="color-swatch" style="background: #F5F5DC;"></div>
+          <div class="color-label">Primary</div>
+          <div class="color-hex">#F5F5DC</div>
+        </div>
+        <div class="color-item">
+          <div class="color-swatch" style="background: #1A1A1A;"></div>
+          <div class="color-label">Outline</div>
+          <div class="color-hex">#1A1A1A</div>
+        </div>
+        <div class="color-item">
+          <div class="color-swatch" style="background: #40ff40;"></div>
+          <div class="color-label">Accent</div>
+          <div class="color-hex">#40ff40</div>
+        </div>
+      </div>
+    </div>
+    
+    <div class="section">
+      <div class="section-header">[ RESOURCES ]</div>
+      
+      <div class="links">
+        <a href="README.md" class="link">[ Documentation ]</a>
+        <a href="PEP-SPEC.md" class="link">[ Technical Spec ]</a>
+        <a href="PEP-PARTS-LIST.md" class="link">[ Parts List ]</a>
+        <a href="assembled/pep-agent-default.svg" class="link" download>[ Download SVG ]</a>
+      </div>
+    </div>
+  </div>
+</body>
+</html>

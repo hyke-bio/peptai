@@ -1,0 +1,303 @@
+/* Peptide Agent Component - Crystallized Dense UI */
+/* Dimensions: 440px × 817px */
+/* Spacing: 12px (primary) / 8px (secondary) / 4px (tight) */
+/* Aesthetic: Clean, Japanese-inspired, agent-centric */
+
+.peptide-agent {
+  width: 440px;
+  height: 817px;
+  display: flex;
+  flex-direction: column;
+  background: var(--color-bg-card);
+  border: 1px solid var(--color-border-tertiary);
+  font-family: var(--font-mono);
+  box-sizing: border-box;
+  overflow: hidden;
+}
+
+/* Header Bar - Compact */
+.peptide-agent-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 12px;
+  border-bottom: 1px solid var(--color-border-tertiary);
+}
+
+.peptide-agent-title {
+  font-size: 11px;
+  color: var(--color-text-primary);
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.peptide-agent-status {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  font-size: 11px;
+  color: var(--color-accent-primary);
+}
+
+.peptide-agent-pulse {
+  width: 6px;
+  height: 6px;
+  background: var(--color-accent-primary);
+  border-radius: 50%;
+  animation: pulse 2s ease-in-out infinite;
+}
+
+@keyframes pulse {
+  0%, 100% { opacity: 1; transform: scale(1); }
+  50% { opacity: 0.3; transform: scale(0.8); }
+}
+
+/* Character Display - Centerpiece */
+.peptide-agent-character {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 12px;
+  background: linear-gradient(180deg, rgba(0,0,0,0) 0%, rgba(64,255,64,0.02) 100%);
+  border-bottom: 1px solid var(--color-border-tertiary);
+}
+
+.peptide-agent-robot {
+  width: 160px;
+  height: 160px;
+  image-rendering: pixelated;
+  image-rendering: -moz-crisp-edges;
+  image-rendering: crisp-edges;
+  filter: drop-shadow(0 0 20px rgba(64, 255, 64, 0.1));
+  transition: all 0.3s ease;
+}
+
+.peptide-agent-robot:hover {
+  filter: drop-shadow(0 0 30px rgba(64, 255, 64, 0.2));
+  transform: scale(1.02);
+}
+
+/* Metrics Grid - Dense, 3-column */
+.peptide-agent-metrics {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 8px;
+  padding: 12px;
+  border-bottom: 1px solid var(--color-border-tertiary);
+}
+
+.peptide-agent-metric {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  padding: 8px;
+  background: rgba(255, 255, 255, 0.02);
+  border: 1px solid var(--color-border-tertiary);
+}
+
+.peptide-agent-metric-label {
+  font-size: 9px;
+  color: var(--color-text-tertiary);
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.peptide-agent-metric-value {
+  font-size: 16px;
+  color: var(--color-text-primary);
+  line-height: 1;
+}
+
+/* Current Activity - Compact */
+.peptide-agent-activity {
+  padding: 12px;
+  border-bottom: 1px solid var(--color-border-tertiary);
+}
+
+.peptide-agent-activity-label {
+  font-size: 9px;
+  color: var(--color-text-tertiary);
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  margin-bottom: 8px;
+}
+
+.peptide-agent-activity-text {
+  font-size: 11px;
+  color: var(--color-text-primary);
+  line-height: 1.4;
+}
+
+/* Progress Section */
+.peptide-agent-progress {
+  padding: 12px;
+  border-bottom: 1px solid var(--color-border-tertiary);
+}
+
+.peptide-agent-progress-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 8px;
+}
+
+.peptide-agent-progress-label {
+  font-size: 9px;
+  color: var(--color-text-tertiary);
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.peptide-agent-progress-value {
+  font-size: 11px;
+  color: var(--color-text-primary);
+}
+
+.peptide-agent-progress-bar {
+  height: 4px;
+  background: var(--color-border-tertiary);
+  position: relative;
+  overflow: hidden;
+}
+
+.peptide-agent-progress-fill {
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 100%;
+  background: var(--color-accent-primary);
+  transition: width 0.5s ease;
+  box-shadow: 0 0 8px rgba(64, 255, 64, 0.3);
+}
+
+/* Pipeline Gates - Visual */
+.peptide-agent-gates {
+  padding: 12px;
+  border-bottom: 1px solid var(--color-border-tertiary);
+}
+
+.peptide-agent-gates-label {
+  font-size: 9px;
+  color: var(--color-text-tertiary);
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  margin-bottom: 8px;
+}
+
+.peptide-agent-gates-grid {
+  display: grid;
+  grid-template-columns: repeat(9, 1fr);
+  gap: 4px;
+}
+
+.peptide-agent-gate {
+  aspect-ratio: 1;
+  background: rgba(255, 255, 255, 0.02);
+  border: 1px solid var(--color-border-tertiary);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 9px;
+  color: var(--color-text-dim);
+  transition: all 0.3s ease;
+}
+
+.peptide-agent-gate.passed {
+  background: rgba(64, 255, 64, 0.1);
+  border-color: var(--color-accent-primary);
+  color: var(--color-accent-primary);
+}
+
+.peptide-agent-gate.current {
+  background: rgba(64, 255, 64, 0.05);
+  border-color: var(--color-accent-primary);
+  color: var(--color-accent-primary);
+  animation: pulse-gate 2s ease-in-out infinite;
+}
+
+@keyframes pulse-gate {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.5; }
+}
+
+/* Timeline - Compact */
+.peptide-agent-timeline {
+  flex: 1;
+  padding: 12px;
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.peptide-agent-timeline-label {
+  font-size: 9px;
+  color: var(--color-text-tertiary);
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  margin-bottom: 4px;
+}
+
+.peptide-agent-timeline-item {
+  display: flex;
+  gap: 8px;
+  padding: 8px;
+  background: rgba(255, 255, 255, 0.02);
+  border-left: 2px solid var(--color-border-tertiary);
+  font-size: 10px;
+  line-height: 1.4;
+}
+
+.peptide-agent-timeline-time {
+  color: var(--color-text-dim);
+  min-width: 50px;
+}
+
+.peptide-agent-timeline-text {
+  color: var(--color-text-secondary);
+  flex: 1;
+}
+
+/* States */
+.peptide-agent.idle .peptide-agent-pulse {
+  background: var(--color-text-dim);
+  animation: none;
+}
+
+.peptide-agent.idle .peptide-agent-status {
+  color: var(--color-text-dim);
+}
+
+.peptide-agent.idle .peptide-agent-robot {
+  opacity: 0.4;
+  filter: grayscale(1);
+}
+
+.peptide-agent.error .peptide-agent-pulse {
+  background: var(--color-error);
+}
+
+.peptide-agent.error .peptide-agent-status {
+  color: var(--color-error);
+}
+
+.peptide-agent.error .peptide-agent-robot {
+  filter: drop-shadow(0 0 20px rgba(255, 64, 64, 0.2));
+}
+
+/* Scrollbar styling */
+.peptide-agent-timeline::-webkit-scrollbar {
+  width: 4px;
+}
+
+.peptide-agent-timeline::-webkit-scrollbar-track {
+  background: var(--color-bg-card);
+}
+
+.peptide-agent-timeline::-webkit-scrollbar-thumb {
+  background: var(--color-border-tertiary);
+}
+
+.peptide-agent-timeline::-webkit-scrollbar-thumb:hover {
+  background: var(--color-border-secondary);
+}

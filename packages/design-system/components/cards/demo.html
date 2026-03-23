@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Card - PeptAI</title>
+  <link rel="stylesheet" href="../../tokens/colors.css">
+  <link rel="stylesheet" href="../../tokens/typography.css">
+  <link rel="stylesheet" href="../../tokens/spacing.css">
+  <link rel="stylesheet" href="card.css">
+  <style>
+    body {
+      background: var(--color-bg-page);
+      color: var(--color-text-primary);
+      padding: var(--space-2);
+      max-width: 600px;
+    }
+    h1 {
+      color: var(--color-text-primary);
+      margin-bottom: var(--space-2);
+    }
+  </style>
+</head>
+<body>
+  <h1>Card Component</h1>
+  
+  <div class="card">
+    <div class="card-header">
+      Card Header
+    </div>
+    <div class="card-body">
+      <p>This is the card body. It can contain any content including text, images, or other components.</p>
+    </div>
+    <div class="card-footer">
+      Card Footer
+    </div>
+  </div>
+  
+  <br>
+  
+  <div class="card">
+    <div class="card-header">
+      Analysis Results
+    </div>
+    <div class="card-body">
+      <p>Total sequences: 1,234</p>
+      <p>Candidates identified: 87</p>
+      <p>Runtime: 2h 34m</p>
+    </div>
+  </div>
+</body>
+</html>

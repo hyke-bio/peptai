@@ -1,0 +1,26 @@
+/* Card Component */
+
+.card {
+  background: var(--color-bg-card);
+  border: var(--border-width) solid var(--color-border-tertiary);
+  padding: var(--padding-card);
+}
+
+.card-header {
+  font-size: var(--text-base);
+  color: var(--color-text-primary);
+  margin-bottom: var(--gap);
+  padding: 8px 0;
+  border-top: var(--border-width) dashed var(--color-border-tertiary);
+  border-bottom: var(--border-width) dashed var(--color-border-tertiary);
+}
+
+.card-body {
+  padding: var(--gap) 0;
+}
+
+.card-footer {
+  margin-top: var(--gap);
+  padding-top: var(--gap);
+  border-top: var(--border-width) dashed var(--color-border-tertiary);
+}
