@@ -2,1005 +2,597 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>PeptAI — Protein Kinetic Interface</title>
-    
-    <!-- Fonts -->
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@100;400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600;700&family=Playfair+Display:ital,wght@1,400;1,500&display=swap" rel="stylesheet">
-    
-    <!-- Three.js -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PeptAI Dashboard</title>
+    <script src="https://cdn.tailwindcss.com/3.4.17"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
-    
     <style>
-        :root {
-            /* Kinetic Interface Colors */
-            --bg: #050505;
-            --text-main: #dfdfdf;
-            --text-dim: #6b6b6b;
-            --text-dark: #333333;
-            --line-faint: rgba(255, 255, 255, 0.15);
-            --line-solid: rgba(255, 255, 255, 0.4);
-            
-            /* PeptAI Colors */
-            --bg-primary: #0A0A0A;
-            --bg-card: rgba(20, 20, 20, 0.85);
-            --bg-card-solid: #141414;
-            --border-primary: rgba(255, 255, 255, 0.3);
-            --border-light: rgba(255, 255, 255, 0.15);
-            --accent: #40ff40;
-            --accent-dim: #2a8a2a;
-            
-            /* Fonts */
-            --font-mono: 'JetBrains Mono', 'IBM Plex Mono', monospace;
-            --font-serif: 'Playfair Display', serif;
-        }
-
-        * {
-            box-sizing: border-box;
-            margin: 0;
-            padding: 0;
+        body {
+            font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+            text-rendering: optimizeLegibility;
             -webkit-font-smoothing: antialiased;
         }
 
-        body, html {
-            width: 100%;
-            height: 100%;
-            background-color: var(--bg);
-            color: var(--text-main);
-            overflow: hidden;
-            font-family: var(--font-mono);
+        /* Dotted pattern for gates */
+        .bg-dots {
+            background-image: radial-gradient(#000 1px, transparent 1px);
+            background-size: 3px 3px;
         }
 
-        /* 3D Canvas Background */
+        /* Diagonal line pattern */
+        .icon-diagonal {
+            position: relative;
+            overflow: hidden;
+        }
+        .icon-diagonal::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 150%;
+            height: 1px;
+            background-color: black;
+            transform-origin: top left;
+            transform: rotate(45deg);
+        }
+
+        /* Hide scrollbar */
+        .no-scrollbar::-webkit-scrollbar {
+            display: none;
+        }
+        .no-scrollbar {
+            -ms-overflow-style: none;
+            scrollbar-width: none;
+        }
+
+        /* 3D Canvas background */
         #canvas-container {
             position: fixed;
             top: 0;
             left: 0;
             width: 100%;
             height: 100%;
-            z-index: 1;
+            z-index: 0;
+            opacity: 0.15; /* Subtle background */
         }
 
-        /* Dashboard Layer */
-        .dashboard {
+        /* Dashboard overlay */
+        #dashboard-overlay {
             position: relative;
             z-index: 10;
-            display: grid;
-            grid-template-columns: 240px 1fr 270px 270px;
-            grid-template-rows: 50px 1fr 30px;
-            grid-template-areas:
-                "header header header header"
-                "sidebar center right1 right2"
-                "footer footer footer footer";
-            min-height: 100vh;
-            max-width: 1920px;
-            margin: 0 auto;
-            pointer-events: none;
-        }
-
-        .dashboard > * {
-            pointer-events: auto;
-        }
-
-        /* System Header (Kinetic style) */
-        .sys-header {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            z-index: 100;
-            display: flex;
-            justify-content: space-between;
-            padding: 12px 24px;
-            font-size: 8px;
-            text-transform: uppercase;
-            letter-spacing: 0.15em;
-            color: var(--text-dim);
-            line-height: 1.4;
-            background: linear-gradient(to bottom, rgba(5,5,5,0.95) 0%, rgba(5,5,5,0) 100%);
-            pointer-events: none;
-        }
-
-        .sys-block {
-            display: flex;
-            flex-direction: column;
-            gap: 4px;
-            pointer-events: auto;
-        }
-
-        .sys-header .highlight {
-            color: var(--accent);
-            font-weight: 600;
-        }
-
-        /* Header */
-        .header {
-            grid-area: header;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 10px 20px;
-            border-bottom: 1px solid var(--border-primary);
-            background: var(--bg-card);
-            backdrop-filter: blur(20px);
-            margin-top: 36px; /* Space for sys-header */
-        }
-
-        .header-logo {
-            display: flex;
-            align-items: center;
-            gap: 8px;
-            font-size: 18px;
-            font-weight: 700;
-        }
-
-        .header-logo svg {
-            width: 30px;
-            height: 30px;
-        }
-
-        .nav-buttons {
-            display: flex;
-            gap: 8px;
-        }
-
-        .nav-btn {
-            padding: 6px 16px;
-            font-family: var(--font-mono);
-            font-size: 13px;
-            border: 1px solid var(--border-primary);
-            background: transparent;
-            color: var(--text-main);
-            cursor: pointer;
-            transition: all 0.2s;
-        }
-
-        .nav-btn:hover {
-            background: rgba(255,255,255,0.05);
-            border-color: var(--line-solid);
-        }
-
-        .nav-btn--primary {
-            background: var(--accent);
-            color: var(--bg);
-            border-color: var(--accent);
-            border-radius: 14px;
-            padding: 6px 20px;
-            font-weight: 600;
-        }
-
-        .nav-btn--primary:hover {
-            background: var(--accent-dim);
-            border-color: var(--accent-dim);
-        }
-
-        /* Sidebar */
-        .sidebar {
-            grid-area: sidebar;
-            padding: 12px;
-            overflow-y: auto;
-        }
-
-        .agent-status-card, .agent-feed-card {
-            border: 1px solid var(--border-primary);
-            padding: 16px;
-            margin-bottom: 12px;
-            background: var(--bg-card);
-            backdrop-filter: blur(20px);
-        }
-
-        .agent-status-indicator {
-            font-size: 14px;
-            font-weight: 700;
-            margin-bottom: 12px;
-            color: var(--accent);
-        }
-
-        .brand-name {
-            font-size: 14px;
-            font-weight: 700;
-            margin-bottom: 4px;
-        }
-
-        .tagline {
-            font-size: 13px;
-            margin-bottom: 12px;
-            font-family: var(--font-serif);
-            font-style: italic;
-            color: var(--text-dim);
-        }
-
-        .bracket-link {
-            display: block;
-            font-size: 13px;
-            margin-bottom: 4px;
-            cursor: pointer;
-            text-decoration: none;
-            color: var(--text-main);
-            transition: color 0.2s;
-        }
-
-        .bracket-link:hover {
-            color: var(--accent);
-        }
-
-        .feed-header {
-            display: flex;
-            justify-content: space-between;
-            margin-bottom: 12px;
-        }
-
-        .feed-title {
-            font-size: 14px;
-            font-weight: 700;
-        }
-
-        .live-indicator {
-            font-size: 12px;
-            color: var(--accent);
-        }
-
-        .feed-item {
-            border: 1px dashed var(--border-light);
-            padding: 10px;
-            margin-bottom: 8px;
-            background: rgba(0,0,0,0.3);
-        }
-
-        .feed-item-title {
-            font-size: 12px;
-            font-weight: 600;
-            margin-bottom: 6px;
-        }
-
-        .feed-item-body {
-            font-size: 11px;
-            line-height: 1.4;
-            color: var(--text-dim);
-        }
-
-        /* Center Content */
-        .center {
-            grid-area: center;
-            padding: 12px;
-            overflow-y: auto;
-        }
-
-        .discovery-pipeline, .candidate-leaderboard {
-            border: 1px solid var(--border-primary);
-            padding: 16px;
-            margin-bottom: 12px;
-            background: var(--bg-card);
-            backdrop-filter: blur(20px);
-        }
-
-        .section-title {
-            font-size: 16px;
-            font-weight: 700;
-            margin-bottom: 16px;
-        }
-
-        .pipeline-flow {
-            display: flex;
-            align-items: center;
-            gap: 8px;
-            margin-bottom: 16px;
-            font-size: 13px;
-            flex-wrap: wrap;
-        }
-
-        .gate-icons-grid {
-            display: grid;
-            grid-template-columns: repeat(9, 1fr);
-            gap: 8px;
-            margin-bottom: 8px;
-        }
-
-        .gate-icon-wrapper {
-            text-align: center;
-        }
-
-        .gate-icon {
-            width: 100%;
-            aspect-ratio: 1;
-            border: 1px solid var(--border-primary);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 12px;
-            font-weight: 600;
-            margin-bottom: 4px;
-            background: rgba(0,0,0,0.5);
-        }
-
-        .gate-icon--solid {
-            background: var(--accent-dim);
-            color: var(--text-main);
-            border-color: var(--accent);
-        }
-
-        .gate-icon--pattern {
-            background-image: 
-                linear-gradient(45deg, var(--accent-dim) 25%, transparent 25%),
-                linear-gradient(-45deg, var(--accent-dim) 25%, transparent 25%),
-                linear-gradient(45deg, transparent 75%, var(--accent-dim) 75%),
-                linear-gradient(-45deg, transparent 75%, var(--accent-dim) 75%);
-            background-size: 6px 6px;
-            background-color: rgba(0,0,0,0.5);
-        }
-
-        .gate-label {
-            font-size: 10px;
-            line-height: 1.2;
-        }
-
-        .gate-stats {
-            font-size: 10px;
-            color: var(--text-dim);
-        }
-
-        /* Table */
-        .leaderboard-header {
-            display: flex;
-            justify-content: space-between;
-            margin-bottom: 12px;
-        }
-
-        .sort-link {
-            font-size: 13px;
-            cursor: pointer;
-            color: var(--text-dim);
-        }
-
-        .sort-link:hover {
-            color: var(--accent);
-        }
-
-        table {
-            width: 100%;
-            border-collapse: collapse;
-            font-size: 13px;
-        }
-
-        th {
-            text-align: left;
-            padding: 8px 4px;
-            border-bottom: 1px solid var(--border-primary);
-            font-weight: 700;
-        }
-
-        td {
-            padding: 6px 4px;
-            border-bottom: 1px solid var(--border-light);
-        }
-
-        /* Stats Grid */
-        .stats-grid {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 12px;
-            margin-top: 12px;
-        }
-
-        .stat-card {
-            border: 1px solid var(--border-primary);
-            padding: 12px;
-            background: var(--bg-card);
-            backdrop-filter: blur(20px);
-        }
-
-        .stat-label {
-            font-size: 12px;
-            margin-bottom: 4px;
-            color: var(--text-dim);
-        }
-
-        .stat-value {
-            font-size: 20px;
-            font-weight: 700;
-            color: var(--accent);
-        }
-
-        /* Right Sidebars */
-        .right1, .right2 {
-            padding: 12px;
-            overflow-y: auto;
-        }
-
-        .right1 { grid-area: right1; }
-        .right2 { grid-area: right2; }
-
-        .tasks-header {
-            font-size: 14px;
-            font-weight: 700;
-            margin-bottom: 12px;
-        }
-
-        .task-card {
-            border: 1px solid var(--border-primary);
-            padding: 12px;
-            margin-bottom: 12px;
-            background: var(--bg-card);
-            backdrop-filter: blur(20px);
-        }
-
-        .task-title {
-            font-size: 13px;
-            font-weight: 700;
-            margin-bottom: 8px;
-        }
-
-        .task-description {
-            font-size: 12px;
-            margin-bottom: 8px;
-            line-height: 1.4;
-            color: var(--text-dim);
-        }
-
-        .task-progress {
-            height: 20px;
-            border: 1px solid var(--border-primary);
-            margin-bottom: 6px;
-            position: relative;
-            display: flex;
-            align-items: center;
-            background: rgba(0,0,0,0.5);
-        }
-
-        .task-progress-fill {
-            height: 100%;
-            background: var(--accent);
-        }
-
-        .task-progress-label {
-            position: absolute;
-            right: 8px;
-            font-size: 11px;
-            font-weight: 600;
-            mix-blend-mode: difference;
-        }
-
-        .task-status {
-            font-size: 11px;
-            text-align: right;
-            color: var(--accent);
-        }
-
-        .how-peptai-works {
-            border: 1px solid var(--border-primary);
-            padding: 12px;
-            background: var(--bg-card);
-            backdrop-filter: blur(20px);
-        }
-
-        .how-peptai-title {
-            font-size: 13px;
-            font-weight: 700;
-            margin-bottom: 12px;
-            display: flex;
-            justify-content: space-between;
-        }
-
-        .step-grid {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 8px;
-        }
-
-        .step-card {
-            border: 1px solid var(--border-primary);
-            padding: 8px;
-            font-size: 11px;
-            text-align: center;
-            background: rgba(0,0,0,0.3);
-        }
-
-        .step-number {
-            font-weight: 700;
-            margin-bottom: 4px;
-            color: var(--accent);
-        }
-
-        /* Footer */
-        .footer {
-            grid-area: footer;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            border-top: 1px solid var(--border-primary);
-            background: var(--bg-card);
-            backdrop-filter: blur(20px);
-            font-size: 12px;
-        }
-
-        /* Scrollbar */
-        ::-webkit-scrollbar {
-            width: 10px;
-        }
-
-        ::-webkit-scrollbar-track {
-            background: rgba(0,0,0,0.3);
-        }
-
-        ::-webkit-scrollbar-thumb {
-            background: var(--border-light);
-            border: 2px solid var(--bg);
-        }
-
-        ::-webkit-scrollbar-thumb:hover {
-            background: var(--border-primary);
-        }
-
-        /* Animations */
-        @keyframes pulse {
-            0%, 100% { opacity: 1; }
-            50% { opacity: 0.5; }
-        }
-
-        .live-indicator::before {
-            content: '●';
-            display: inline-block;
-            margin-right: 4px;
-            animation: pulse 2s ease-in-out infinite;
-        }
-
-        /* Geometry visualization hint */
-        .geometry-hint {
-            position: absolute;
-            bottom: 100px;
-            left: 50%;
-            transform: translateX(-50%);
-            font-size: 10px;
-            text-transform: uppercase;
-            letter-spacing: 0.15em;
-            color: var(--text-dim);
-            pointer-events: none;
-            z-index: 5;
         }
     </style>
 </head>
-<body>
+<body class="bg-white text-black w-screen h-screen flex flex-col p-4 box-border text-[12px] leading-snug overflow-hidden">
 
-    <!-- 3D Canvas Background -->
+    <!-- 3D Protein Background -->
     <div id="canvas-container"></div>
 
-    <!-- System Header (Kinetic Interface) -->
-    <div class="sys-header">
-        <div class="sys-block">
-            <span>PEPTAI SYSTEM</span>
-            <span class="highlight">ONLINE</span>
-        </div>
-        <div class="sys-block">
-            <span>AGENTS: <span class="highlight">1</span></span>
-            <span>GATES: <span class="highlight">9</span></span>
-        </div>
-        <div class="sys-block">
-            <span>RUNTIME: <span class="highlight">23D 4H</span></span>
-            <span>CANDIDATES: <span class="highlight">127</span></span>
-        </div>
-        <div class="sys-block">
-            <span>STATUS: <span class="highlight">EVALUATING</span></span>
-            <span>GATE 3 | BINDING POSE</span>
-        </div>
-    </div>
-
-    <!-- Geometry Hint -->
-    <div class="geometry-hint">◈ Protein Structure Visualization ◈</div>
-
-    <!-- Dashboard -->
-    <div class="dashboard">
+    <!-- Dashboard Overlay -->
+    <div id="dashboard-overlay" class="w-full h-full flex flex-col">
         <!-- Header -->
-        <div class="header">
-            <div class="header-logo">
-                <svg viewBox="0 0 30 30" fill="currentColor">
-                    <path d="M15 2 L15 10 M15 10 L11 14 M15 10 L19 14 M10 15 C10 10 20 10 20 15 C20 20 10 20 10 15 M10 20 L10 28 M20 20 L20 28" stroke="currentColor" fill="none" stroke-width="2"/>
+        <header class="flex justify-between items-center border border-black p-2 mb-4 shrink-0 bg-white">
+            <div class="flex items-center justify-center w-8 h-8 ml-2">
+                <!-- Logo SVG -->
+                <svg viewBox="0 0 24 24" fill="none" stroke="black" stroke-width="2" class="w-6 h-6">
+                    <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2z" stroke-dasharray="4 2"></path>
+                    <circle cx="9" cy="9" r="2" fill="black"></circle>
+                    <circle cx="15" cy="15" r="1.5" fill="black"></circle>
+                    <path d="M9 11l4 2" stroke-width="1.5"></path>
                 </svg>
-                <span>PeptAI</span>
             </div>
-            <div class="nav-buttons">
-                <button class="nav-btn">Leaderboard</button>
-                <button class="nav-btn">Docs</button>
-                <button class="nav-btn nav-btn--primary">Join</button>
+            <div class="flex gap-2 mr-1">
+                <button class="border border-black px-4 py-1 hover:bg-black hover:text-white transition-colors">Leaderboard</button>
+                <button class="border border-black px-4 py-1 hover:bg-black hover:text-white transition-colors">Docs</button>
+                <button class="border border-black px-4 py-1 bg-black text-white hover:bg-white hover:text-black transition-colors">Join</button>
             </div>
-        </div>
+        </header>
 
-        <!-- Left Sidebar -->
-        <div class="sidebar">
-            <div class="agent-status-card">
-                <div class="agent-status-indicator">✦ Agent Running</div>
-                <div class="brand-name">PeptAI</div>
-                <div class="tagline">Autonomous Peptide Discovery,<br>Transparently On-Chain</div>
-                <div class="description" style="font-size: 13px; margin-bottom: 12px; color: var(--text-dim);">
-                    One AI agent. Nine validation gates.<br>
-                    Every result published immutably.
+        <!-- Main Content -->
+        <main class="flex-1 flex gap-4 min-h-0">
+            <!-- Left Sidebar (18%) -->
+            <div class="w-[18%] flex flex-col gap-4">
+                <!-- Agent Status Card -->
+                <div class="border border-black p-4 flex flex-col gap-4 shrink-0 bg-white">
+                    <h2 class="font-bold">* Agent Running</h2>
+                    <div class="flex flex-col gap-4 mt-2">
+                        <p>PeptAI<br>Autonomous Peptide Discovery,<br>Transparently On-Chain</p>
+                        <p>One AI agent. Nine validation gates.<br>Every result published immutably.</p>
+                    </div>
+                    <div class="flex flex-col gap-4 mt-4 text-[13px]">
+                        <a href="#" class="hover:underline">[ View Pipeline ]</a>
+                        <a href="#" class="hover:underline">[ Read Docs ]</a>
+                        <a href="#" class="hover:underline">[ Join Community ]</a>
+                    </div>
                 </div>
-                <a href="#" class="bracket-link">[ View Pipeline ]</a>
-                <a href="#" class="bracket-link">[ Read Docs ]</a>
-                <a href="#" class="bracket-link">[ Join Community ]</a>
-            </div>
 
-            <div class="agent-feed-card">
-                <div class="feed-header">
-                    <div class="feed-title">Agent Feed</div>
-                    <div class="live-indicator">Live</div>
-                </div>
-                <div class="feed-item">
-                    <div class="feed-item-title">Candidate #48 - 14:23 - Evaluating</div>
-                    <div class="feed-item-body">
-                        Currently evaluating Candidate #48 at Gate 3 (Binding Pose). Pipeline: 12 passed all gates, 3 pending synthesis.
+                <!-- Agent Feed -->
+                <div class="border border-black p-4 flex flex-col flex-1 overflow-y-auto no-scrollbar bg-white">
+                    <div class="flex justify-between items-center mb-2">
+                        <h2 class="font-bold">Agent Feed</h2>
+                        <span class="font-bold">* Live</span>
                     </div>
-                </div>
-                <div class="feed-item">
-                    <div class="feed-item-title">Candidate #47 - 14:20 - Failed</div>
-                    <div class="feed-item-body">
-                        Candidate #47 failed Gate 2 (Conformational Search). Affinity score: -7.1 kcal/mol. Discarded.
-                    </div>
-                </div>
-                <div class="feed-item">
-                    <div class="feed-item-title">Candidate #46 - 14:15 - Passed</div>
-                    <div class="feed-item-body">
-                        Candidate #46 passed Gate 8 (Selectivity). Moving to final validation (Gate 9).
-                    </div>
-                </div>
-                <div class="feed-item">
-                    <div class="feed-item-title">System - 14:10 - Published</div>
-                    <div class="feed-item-body">
-                        Published 10 cycles to chain. Transaction: 0x8f...2a
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <!-- Center Content -->
-        <div class="center">
-            <div class="discovery-pipeline">
-                <div class="section-title">Discovery Pipeline</div>
-                <div class="pipeline-flow">
-                    <span>G1</span> <span>→</span> <span>G2</span> <span>→</span> <span>G3</span> <span>→</span> <span>G4</span> <span>→</span> <span>G5</span> <span>→</span> <span>G6</span> <span>→</span> <span>G7</span> <span>→</span> <span>G8</span> <span>→</span> <span>G9</span>
-                </div>
-                <div class="gate-icons-grid">
-                    <div class="gate-icon-wrapper">
-                        <div class="gate-icon gate-icon--solid">G1</div>
-                        <div class="gate-label">Struc<br>ture</div>
-                        <div class="gate-stats">12/47<br>passed</div>
-                    </div>
-                    <div class="gate-icon-wrapper">
-                        <div class="gate-icon gate-icon--solid">G2</div>
-                        <div class="gate-label">Con<br>form</div>
-                        <div class="gate-stats">12/47<br>passed</div>
-                    </div>
-                    <div class="gate-icon-wrapper">
-                        <div class="gate-icon gate-icon--solid">G3</div>
-                        <div class="gate-label">Bind<br>Pose</div>
-                        <div class="gate-stats">12/47<br>passed</div>
-                    </div>
-                    <div class="gate-icon-wrapper">
-                        <div class="gate-icon gate-icon--solid">G4</div>
-                        <div class="gate-label">Affi<br>nity</div>
-                        <div class="gate-stats">12/47<br>passed</div>
-                    </div>
-                    <div class="gate-icon-wrapper">
-                        <div class="gate-icon gate-icon--pattern">G5</div>
-                        <div class="gate-label">MD<br>Stab</div>
-                        <div class="gate-stats">12/47<br>passed</div>
-                    </div>
-                    <div class="gate-icon-wrapper">
-                        <div class="gate-icon gate-icon--pattern">G6</div>
-                        <div class="gate-label">Prot<br>eoly</div>
-                        <div class="gate-stats">8/47<br>passed</div>
-                    </div>
-                    <div class="gate-icon-wrapper">
-                        <div class="gate-icon gate-icon--pattern">G7</div>
-                        <div class="gate-label">Phys<br>Chem</div>
-                        <div class="gate-stats">6/47<br>passed</div>
-                    </div>
-                    <div class="gate-icon-wrapper">
-                        <div class="gate-icon gate-icon--pattern">G8</div>
-                        <div class="gate-label">Sel<br>ect</div>
-                        <div class="gate-stats">4/47<br>passed</div>
-                    </div>
-                    <div class="gate-icon-wrapper">
-                        <div class="gate-icon gate-icon--pattern">G9</div>
-                        <div class="gate-label">Exp<br>Val</div>
-                        <div class="gate-stats">2/47<br>passed</div>
+                    <div class="flex flex-col gap-3 mt-2">
+                        <!-- Feed items -->
+                        <fieldset class="border border-black p-3 pt-2 text-[11px] leading-relaxed">
+                            <legend class="px-1 ml-2 font-bold whitespace-nowrap">- Candidate #46 - 14:23 - Evaluating -</legend>
+                            <p class="mt-1">Currently evaluating Candidate #48 at Gate 3 (Binding Pose). Pipeline: 12 passed all gates</p>
+                            <p class="mt-2">3 pending synthesis.</p>
+                        </fieldset>
+                        <fieldset class="border border-black p-3 pt-2 text-[11px] leading-relaxed">
+                            <legend class="px-1 ml-2 font-bold whitespace-nowrap">- Candidate #46 - 14:23 - Evaluating -</legend>
+                            <p class="mt-1">Currently evaluating Candidate #48 at Gate 3 (Binding Pose). Pipeline: 12 passed all gates</p>
+                            <p class="mt-2">3 pending synthesis.</p>
+                        </fieldset>
+                        <fieldset class="border border-black p-3 pt-2 text-[11px] leading-relaxed">
+                            <legend class="px-1 ml-2 font-bold whitespace-nowrap">- Candidate #46 - 14:23 - Evaluating -</legend>
+                            <p class="mt-1">Currently evaluating Candidate #48 at Gate 3 (Binding Pose). Pipeline: 12 passed all gates</p>
+                            <p class="mt-2">3 pending synthesis.</p>
+                        </fieldset>
+                        <fieldset class="border border-black p-3 pt-2 text-[11px] leading-relaxed mb-1">
+                            <legend class="px-1 ml-2 font-bold whitespace-nowrap">- Candidate #46 - 14:23 - Evaluating -</legend>
+                            <p class="mt-1">Currently evaluating Candidate #48 at Gate 3 (Binding Pose). Pipeline: 12 passed all gates</p>
+                            <p class="mt-2">3 pending synthesis.</p>
+                        </fieldset>
                     </div>
                 </div>
             </div>
 
-            <div class="candidate-leaderboard">
-                <div class="leaderboard-header">
-                    <div class="section-title">Candidate Leaderboard</div>
-                    <div class="sort-link">[ Sort ˅ ]</div>
-                </div>
-                <table>
-                    <thead>
-                        <tr>
-                            <th>ID</th>
-                            <th>Target</th>
-                            <th>Gates</th>
-                            <th>Affinity</th>
-                            <th>Synthesis</th>
-                            <th>Vote</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr>
-                            <td>PEP-031</td>
-                            <td>GLP-1R</td>
-                            <td>8/8 ✓</td>
-                            <td>-12.4</td>
-                            <td>Synthesis</td>
-                            <td>48</td>
-                        </tr>
-                        <tr>
-                            <td>PEP-029</td>
-                            <td>GLP-1R</td>
-                            <td>8/8 ✓</td>
-                            <td>-11.8</td>
-                            <td>Wet Lab</td>
-                            <td>38</td>
-                        </tr>
-                        <tr>
-                            <td>PEP-048</td>
-                            <td>GLP-1R</td>
-                            <td>6/8</td>
-                            <td>-10.2</td>
-                            <td>Evaluating</td>
-                            <td>2</td>
-                        </tr>
-                        <tr>
-                            <td>PEP-044</td>
-                            <td>GLP-1R</td>
-                            <td>5/8</td>
-                            <td>-9.7</td>
-                            <td>Evaluating</td>
-                            <td>5</td>
-                        </tr>
-                        <tr>
-                            <td>PEP-042</td>
-                            <td>IL-17A</td>
-                            <td>4/8</td>
-                            <td>-8.9</td>
-                            <td>Evaluating</td>
-                            <td>1</td>
-                        </tr>
-                        <tr>
-                            <td>PEP-047</td>
-                            <td>GLP-1R</td>
-                            <td>2/8 ✗</td>
-                            <td>-7.1</td>
-                            <td>Failed G2</td>
-                            <td>0</td>
-                        </tr>
-                    </tbody>
-                </table>
-                <div style="margin-top: 12px;">
-                    <a href="#" class="bracket-link">[ View Full Pipeline ]</a>
-                </div>
-            </div>
-
-            <div class="stats-grid">
-                <div class="stat-card">
-                    <div class="stat-label">Candidates Evaluated</div>
-                    <div class="stat-value">127</div>
-                </div>
-                <div class="stat-card">
-                    <div class="stat-label">Gates Passed</div>
-                    <div class="stat-value">12</div>
-                </div>
-                <div class="stat-card">
-                    <div class="stat-label">Current Target</div>
-                    <div class="stat-value">GLP-1R</div>
-                </div>
-                <div class="stat-card">
-                    <div class="stat-label">Days Running</div>
-                    <div class="stat-value">23</div>
-                </div>
-            </div>
-        </div>
-
-        <!-- Right Sidebar 1 -->
-        <div class="right1">
-            <div class="tasks-header">Active Tasks</div>
-
-            <div class="task-card">
-                <div class="task-title">Discovery Cycle</div>
-                <div class="task-description">Run triplicate Discovery Cycles<br>3 independent runs</div>
-                <div class="task-progress">
-                    <div class="task-progress-fill" style="width: 67%;"></div>
-                    <div class="task-progress-label">67%</div>
-                </div>
-                <div class="task-status">✦ Running</div>
-            </div>
-
-            <div class="task-card">
-                <div class="task-title">Gate 3 Evaluation</div>
-                <div class="task-description">Binding pose analysis<br>Candidate #48</div>
-                <div class="task-progress">
-                    <div class="task-progress-fill" style="width: 42%;"></div>
-                    <div class="task-progress-label">42%</div>
-                </div>
-                <div class="task-status">✦ Running</div>
-            </div>
-
-            <div class="task-card">
-                <div class="task-title">Structure Prediction</div>
-                <div class="task-description">LiteFold structure generation<br>Batch #15</div>
-                <div class="task-progress">
-                    <div class="task-progress-fill" style="width: 89%;"></div>
-                    <div class="task-progress-label">89%</div>
-                </div>
-                <div class="task-status">✦ Running</div>
-            </div>
-
-            <div class="task-card">
-                <div class="task-title">Chain Publication</div>
-                <div class="task-description">Publishing results to chain<br>10 cycle batch</div>
-                <div class="task-progress">
-                    <div class="task-progress-fill" style="width: 100%;"></div>
-                    <div class="task-progress-label">100%</div>
-                </div>
-                <div class="task-status">✓ Complete</div>
-            </div>
-
-            <div class="how-peptai-works">
-                <div class="how-peptai-title">
-                    <span>How PeptAI Works</span>
-                    <span style="cursor: pointer;">[ Docs ]</span>
-                </div>
-                <div class="step-grid">
-                    <div class="step-card">
-                        <div class="step-number">AI</div>
-                        <div>Designs Candidates</div>
-                    </div>
-                    <div class="step-card">
-                        <div class="step-number">9 Gates</div>
-                        <div>Validation</div>
-                    </div>
-                    <div class="step-card">
-                        <div class="step-number">Results</div>
-                        <div>Published</div>
-                    </div>
-                    <div class="step-card">
-                        <div class="step-number">Community</div>
-                        <div>Votes</div>
+            <!-- Center Content (34%) -->
+            <div class="w-[34%] flex flex-col gap-4">
+                <!-- Discovery Pipeline -->
+                <div class="border border-black p-4 shrink-0 flex flex-col bg-white">
+                    <h2 class="font-bold mb-6">Discovery Pipeline</h2>
+                    <div class="flex items-start justify-between w-full px-1">
+                        <!-- G1 -->
+                        <div class="flex flex-col items-center w-8 shrink-0">
+                            <span class="font-bold mb-[14px]">G1</span>
+                            <div class="w-7 h-7 border border-black p-[3px] mb-2 bg-white z-10">
+                                <div class="w-full h-full bg-black"></div>
+                            </div>
+                            <span class="text-[10px] text-center leading-[1.1] mb-1">Struc<br>ture.</span>
+                            <span class="text-[9px] text-gray-500 text-center leading-tight">12/47<br>passed</span>
+                        </div>
+                        <!-- Arrow -->
+                        <div class="flex-1 flex items-center pt-[6px] px-1 relative z-0">
+                            <div class="w-full h-[1px] bg-black"></div>
+                            <span class="text-[12px] leading-none -ml-[2px] mb-[1px]">&gt;</span>
+                        </div>
+                        <!-- G2 -->
+                        <div class="flex flex-col items-center w-8 shrink-0">
+                            <span class="font-bold mb-[14px]">G2</span>
+                            <div class="w-7 h-7 border border-black p-[3px] mb-2 bg-white z-10">
+                                <div class="w-full h-full bg-black"></div>
+                            </div>
+                            <span class="text-[10px] text-center leading-[1.1] mb-1">Com<br>form.</span>
+                            <span class="text-[9px] text-gray-500 text-center leading-tight">12/47<br>passed</span>
+                        </div>
+                        <!-- Arrow -->
+                        <div class="flex-1 flex items-center pt-[6px] px-1 relative z-0">
+                            <div class="w-full h-[1px] bg-black"></div>
+                            <span class="text-[12px] leading-none -ml-[2px] mb-[1px]">&gt;</span>
+                        </div>
+                        <!-- G3 -->
+                        <div class="flex flex-col items-center w-8 shrink-0">
+                            <span class="font-bold mb-[14px]">G3</span>
+                            <div class="w-7 h-7 border border-black p-[3px] mb-2 bg-white z-10">
+                                <div class="w-full h-full bg-black"></div>
+                            </div>
+                            <span class="text-[10px] text-center leading-[1.1] mb-1">Bind<br>Pose</span>
+                            <span class="text-[9px] text-gray-500 text-center leading-tight">12/47<br>passed</span>
+                        </div>
+                        <!-- Arrow -->
+                        <div class="flex-1 flex items-center pt-[6px] px-1 relative z-0">
+                            <div class="w-full h-[1px] bg-black"></div>
+                            <span class="text-[12px] leading-none -ml-[2px] mb-[1px]">&gt;</span>
+                        </div>
+                        <!-- G4 -->
+                        <div class="flex flex-col items-center w-8 shrink-0">
+                            <span class="font-bold mb-[14px]">G4</span>
+                            <div class="w-7 h-7 border border-black p-[3px] mb-2 bg-white z-10">
+                                <div class="w-full h-full bg-black"></div>
+                            </div>
+                            <span class="text-[10px] text-center leading-[1.1] mb-1">Affi<br>nity</span>
+                            <span class="text-[9px] text-gray-500 text-center leading-tight">12/47<br>passed</span>
+                        </div>
+                        <!-- Arrow -->
+                        <div class="flex-1 flex items-center pt-[6px] px-1 relative z-0">
+                            <div class="w-full h-[1px] bg-black"></div>
+                            <span class="text-[12px] leading-none -ml-[2px] mb-[1px]">&gt;</span>
+                        </div>
+                        <!-- G5 -->
+                        <div class="flex flex-col items-center w-8 shrink-0">
+                            <span class="font-bold mb-[14px]">G5</span>
+                            <div class="w-7 h-7 border border-black p-[3px] mb-2 bg-white z-10">
+                                <div class="w-full h-full bg-dots border border-black"></div>
+                            </div>
+                            <span class="text-[10px] text-center leading-[1.1] mb-1">MD<br>Stab</span>
+                            <span class="text-[9px] text-gray-500 text-center leading-tight">12/47<br>passed</span>
+                        </div>
+                        <!-- Arrow -->
+                        <div class="flex-1 flex items-center pt-[6px] px-1 relative z-0">
+                            <div class="w-full h-[1px] bg-black"></div>
+                            <span class="text-[12px] leading-none -ml-[2px] mb-[1px]">&gt;</span>
+                        </div>
+                        <!-- G6 -->
+                        <div class="flex flex-col items-center w-8 shrink-0">
+                            <span class="font-bold mb-[14px]">G6</span>
+                            <div class="w-7 h-7 border border-black p-[3px] mb-2 bg-white z-10">
+                                <div class="w-full h-full bg-black"></div>
+                            </div>
+                            <span class="text-[10px] text-center leading-[1.1] mb-1">Prot<br>eoly.</span>
+                            <span class="text-[9px] text-gray-500 text-center leading-tight">12/47<br>passed</span>
+                        </div>
+                        <!-- Arrow -->
+                        <div class="flex-1 flex items-center pt-[6px] px-1 relative z-0">
+                            <div class="w-full h-[1px] bg-black"></div>
+                            <span class="text-[12px] leading-none -ml-[2px] mb-[1px]">&gt;</span>
+                        </div>
+                        <!-- G7 -->
+                        <div class="flex flex-col items-center w-8 shrink-0">
+                            <span class="font-bold mb-[14px]">G7</span>
+                            <div class="w-7 h-7 border border-black p-[3px] mb-2 bg-white z-10">
+                                <div class="w-full h-full bg-black"></div>
+                            </div>
+                            <span class="text-[10px] text-center leading-[1.1] mb-1">Phys<br>immu</span>
+                            <span class="text-[9px] text-gray-500 text-center leading-tight">12/47<br>passed</span>
+                        </div>
+                        <!-- Arrow -->
+                        <div class="flex-1 flex items-center pt-[6px] px-1 relative z-0">
+                            <div class="w-full h-[1px] bg-black"></div>
+                            <span class="text-[12px] leading-none -ml-[2px] mb-[1px]">&gt;</span>
+                        </div>
+                        <!-- G8 -->
+                        <div class="flex flex-col items-center w-8 shrink-0">
+                            <span class="font-bold mb-[14px]">G8</span>
+                            <div class="w-7 h-7 border border-black p-[3px] mb-2 bg-white z-10">
+                                <div class="w-full h-full bg-dots border border-black"></div>
+                            </div>
+                            <span class="text-[10px] text-center leading-[1.1] mb-1">Sel<br>ect.</span>
+                            <span class="text-[9px] text-gray-500 text-center leading-tight">12/47<br>passed</span>
+                        </div>
+                        <!-- Arrow -->
+                        <div class="flex-1 flex items-center pt-[6px] px-1 relative z-0">
+                            <div class="w-full h-[1px] bg-black"></div>
+                            <span class="text-[12px] leading-none -ml-[2px] mb-[1px]">&gt;</span>
+                        </div>
+                        <!-- G9 -->
+                        <div class="flex flex-col items-center w-8 shrink-0">
+                            <span class="font-bold mb-[14px]">G9</span>
+                            <div class="w-7 h-7 border border-black p-[3px] mb-2 bg-white z-10">
+                                <div class="w-full h-full bg-dots border border-black"></div>
+                            </div>
+                            <span class="text-[10px] text-center leading-[1.1] mb-1">Exp<br>eri.</span>
+                            <span class="text-[9px] text-gray-500 text-center leading-tight">12/47<br>passed</span>
+                        </div>
                     </div>
                 </div>
-            </div>
-        </div>
 
-        <!-- Right Sidebar 2 -->
-        <div class="right2">
-            <div class="tasks-header">Queue</div>
+                <!-- Candidate Leaderboard -->
+                <div class="border border-black p-4 flex-1 flex flex-col bg-white">
+                    <div class="flex justify-between items-center mb-4">
+                        <h2 class="font-bold">Candidate Leaderboard</h2>
+                        <span>[ Sort ▾ ]</span>
+                    </div>
+                    <div class="border border-black p-3 pt-2 flex-1">
+                        <div class="grid grid-cols-[3fr_3fr_2.5fr_3fr_4fr_1.5fr] gap-2 border-b border-black pb-2 mb-3">
+                            <div class="font-bold">ID</div>
+                            <div class="font-bold">Target</div>
+                            <div class="font-bold">Gates</div>
+                            <div class="font-bold">Affinity</div>
+                            <div class="font-bold">Synthesis</div>
+                            <div class="font-bold text-right">Vote</div>
+                        </div>
+                        <div class="flex flex-col gap-3">
+                            <div class="grid grid-cols-[3fr_3fr_2.5fr_3fr_4fr_1.5fr] gap-2 items-center">
+                                <div>PEP-031</div>
+                                <div>GLP-1R</div>
+                                <div>8/8 ✓</div>
+                                <div>-12.4</div>
+                                <div>Synthesis</div>
+                                <div class="text-right pr-1">47</div>
+                            </div>
+                            <div class="grid grid-cols-[3fr_3fr_2.5fr_3fr_4fr_1.5fr] gap-2 items-center">
+                                <div>PEP-031</div>
+                                <div>GLP-1R</div>
+                                <div>8/8 ✓</div>
+                                <div>-11.8</div>
+                                <div>Wet Lab</div>
+                                <div class="text-right pr-1">38</div>
+                            </div>
+                            <div class="grid grid-cols-[3fr_3fr_2.5fr_3fr_4fr_1.5fr] gap-2 items-center">
+                                <div>PEP-031</div>
+                                <div>GLP-1R</div>
+                                <div>6/8</div>
+                                <div>-10.2</div>
+                                <div>Evaluating</div>
+                                <div class="text-right pr-1">22</div>
+                            </div>
+                            <div class="grid grid-cols-[3fr_3fr_2.5fr_3fr_4fr_1.5fr] gap-2 items-center">
+                                <div>PEP-031</div>
+                                <div>GLP-1R</div>
+                                <div>5/8</div>
+                                <div>-9.7</div>
+                                <div>Evaluating</div>
+                                <div class="text-right pr-1">15</div>
+                            </div>
+                            <div class="grid grid-cols-[3fr_3fr_2.5fr_3fr_4fr_1.5fr] gap-2 items-center">
+                                <div>PEP-031</div>
+                                <div>IL-17A</div>
+                                <div>4/8</div>
+                                <div>-</div>
+                                <div>Evaluating</div>
+                                <div class="text-right pr-1">0</div>
+                            </div>
+                            <div class="grid grid-cols-[3fr_3fr_2.5fr_3fr_4fr_1.5fr] gap-2 items-center">
+                                <div>PEP-031</div>
+                                <div>GLP-1R</div>
+                                <div>2/8 ✗</div>
+                                <div>-7.1</div>
+                                <div>Failed G4</div>
+                                <div class="text-right pr-1">3</div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="mt-4 text-[13px]">
+                        <a href="#" class="hover:underline">[ View Pipeline ]</a>
+                    </div>
+                </div>
 
-            <div class="task-card">
-                <div class="task-title">Candidate #49</div>
-                <div class="task-description">Waiting for Gate 2<br>ETA: 15 minutes</div>
-                <div class="task-status">⏳ Queued</div>
+                <!-- Stats Grid -->
+                <div class="grid grid-cols-2 gap-4 shrink-0">
+                    <div class="border border-black p-4 flex flex-col justify-between h-20 bg-white">
+                        <h3 class="font-bold">Candidates Evaluated</h3>
+                        <span>127</span>
+                    </div>
+                    <div class="border border-black p-4 flex flex-col justify-between h-20 bg-white">
+                        <h3 class="font-bold">Gates Passed</h3>
+                        <span>12</span>
+                    </div>
+                    <div class="border border-black p-4 flex flex-col justify-between h-20 bg-white">
+                        <h3 class="font-bold">Current Target</h3>
+                        <span>GLP-1R</span>
+                    </div>
+                    <div class="border border-black p-4 flex flex-col justify-between h-20 bg-white">
+                        <h3 class="font-bold">Days Running</h3>
+                        <span>23</span>
+                    </div>
+                </div>
             </div>
 
-            <div class="task-card">
-                <div class="task-title">Candidate #50</div>
-                <div class="task-description">Waiting for Gate 1<br>ETA: 25 minutes</div>
-                <div class="task-status">⏳ Queued</div>
+            <!-- Right Sidebar 1 (24%) -->
+            <div class="w-[24%] flex flex-col gap-4">
+                <div class="border border-black p-4 flex-1 flex flex-col overflow-y-auto no-scrollbar bg-white">
+                    <h2 class="font-bold mb-4">Active tasks</h2>
+                    <div class="flex flex-col gap-3">
+                        <!-- Task cards -->
+                        <div class="border border-black p-3 flex flex-col gap-3">
+                            <div class="flex justify-between items-center">
+                                <span class="font-bold text-[13px]">Discovery</span>
+                                <div class="w-3.5 h-3.5 bg-black"></div>
+                            </div>
+                            <p>Run triplicate Discovery Cycles</p>
+                            <p class="mt-1">3 independent runs</p>
+                            <div class="flex items-center gap-2 mt-1 w-full">
+                                <div class="flex h-3 border border-black w-24 shrink-0">
+                                    <div class="bg-black w-[40%]"></div>
+                                    <div class="bg-dots w-[60%]"></div>
+                                </div>
+                                <span class="text-gray-500 text-[11px] shrink-0">67%</span>
+                                <span class="text-gray-500 text-[11px] ml-auto">* Running</span>
+                            </div>
+                        </div>
+                        <div class="border border-black p-3 flex flex-col gap-3">
+                            <div class="flex justify-between items-center">
+                                <span class="font-bold text-[13px]">Gate Evaluation</span>
+                                <div class="w-3.5 h-3.5 border border-black bg-dots"></div>
+                            </div>
+                            <p>Run triplicate Discovery Cycles</p>
+                            <p class="mt-1">3 independent runs</p>
+                            <div class="flex items-center gap-2 mt-1 w-full">
+                                <div class="flex h-3 border border-black w-24 shrink-0">
+                                    <div class="bg-black w-[40%]"></div>
+                                    <div class="bg-dots w-[60%]"></div>
+                                </div>
+                                <span class="text-gray-500 text-[11px] shrink-0">67%</span>
+                                <span class="text-gray-500 text-[11px] ml-auto">* Running</span>
+                            </div>
+                        </div>
+                        <div class="border border-black p-3 flex flex-col gap-3">
+                            <div class="flex justify-between items-center">
+                                <span class="font-bold text-[13px]">Discovery</span>
+                                <div class="w-3.5 h-3.5 border border-black bg-dots"></div>
+                            </div>
+                            <p>Run triplicate Discovery Cycles</p>
+                            <p class="mt-1">3 independent runs</p>
+                            <div class="flex items-center gap-2 mt-1 w-full">
+                                <div class="flex h-3 border border-black w-24 shrink-0">
+                                    <div class="bg-black w-[40%]"></div>
+                                    <div class="bg-dots w-[60%]"></div>
+                                </div>
+                                <span class="text-gray-500 text-[11px] shrink-0">67%</span>
+                                <span class="text-gray-500 text-[11px] ml-auto">* Running</span>
+                            </div>
+                        </div>
+                        <div class="border border-black p-3 flex flex-col gap-3">
+                            <div class="flex justify-between items-center">
+                                <span class="font-bold text-[13px]">Discovery</span>
+                                <div class="w-3.5 h-3.5 border border-black icon-diagonal"></div>
+                            </div>
+                            <p>Run triplicate Discovery Cycles</p>
+                            <p class="mt-1">3 independent runs</p>
+                            <div class="flex items-center gap-2 mt-1 w-full">
+                                <div class="flex h-3 border border-black w-24 shrink-0">
+                                    <div class="bg-black w-[40%]"></div>
+                                    <div class="bg-dots w-[60%]"></div>
+                                </div>
+                                <span class="text-gray-500 text-[11px] shrink-0">67%</span>
+                                <span class="text-gray-500 text-[11px] ml-auto">* Running</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- How PeptAI Works -->
+                <div class="border border-black p-4 shrink-0 bg-white">
+                    <div class="flex justify-between items-center mb-3">
+                        <h2 class="font-bold">How PeptAI Works</h2>
+                        <span>[ Docs ]</span>
+                    </div>
+                    <div class="flex gap-2 w-full h-16">
+                        <div class="flex-1 border border-black flex items-center justify-center text-center p-1 text-[10px] text-gray-600 font-bold leading-tight">
+                            AI<br>Designs<br>Candida<br>tes
+                        </div>
+                        <div class="flex-1 border border-black flex items-center justify-center text-center p-1 text-[10px] text-gray-600 font-bold leading-tight">
+                            9 Gate<br>Validat<br>ion
+                        </div>
+                        <div class="flex-1 border border-black flex items-center justify-center text-center p-1 text-[10px] text-gray-600 font-bold leading-tight">
+                            Results<br>Published
+                        </div>
+                        <div class="flex-1 border border-black flex items-center justify-center text-center p-1 text-[10px] text-gray-600 font-bold leading-tight">
+                            Community<br>Votes
+                        </div>
+                    </div>
+                </div>
             </div>
 
-            <div class="task-card">
-                <div class="task-title">Candidate #51</div>
-                <div class="task-description">Waiting for structure prediction<br>ETA: 32 minutes</div>
-                <div class="task-status">⏳ Queued</div>
+            <!-- Right Sidebar 2 (24%) -->
+            <div class="w-[24%] flex flex-col gap-4">
+                <div class="border border-black p-4 flex-1 flex flex-col overflow-y-auto no-scrollbar bg-white">
+                    <h2 class="font-bold mb-4">Active tasks</h2>
+                    <div class="flex flex-col gap-3">
+                        <!-- Task cards (same as right 1) -->
+                        <div class="border border-black p-3 flex flex-col gap-3">
+                            <div class="flex justify-between items-center">
+                                <span class="font-bold text-[13px]">Discovery</span>
+                                <div class="w-3.5 h-3.5 bg-black"></div>
+                            </div>
+                            <p>Run triplicate Discovery Cycles</p>
+                            <p class="mt-1">3 independent runs</p>
+                            <div class="flex items-center gap-2 mt-1 w-full">
+                                <div class="flex h-3 border border-black w-24 shrink-0">
+                                    <div class="bg-black w-[40%]"></div>
+                                    <div class="bg-dots w-[60%]"></div>
+                                </div>
+                                <span class="text-gray-500 text-[11px] shrink-0">67%</span>
+                                <span class="text-gray-500 text-[11px] ml-auto">* Running</span>
+                            </div>
+                        </div>
+                        <div class="border border-black p-3 flex flex-col gap-3">
+                            <div class="flex justify-between items-center">
+                                <span class="font-bold text-[13px]">Gate Evaluation</span>
+                                <div class="w-3.5 h-3.5 border border-black bg-dots"></div>
+                            </div>
+                            <p>Run triplicate Discovery Cycles</p>
+                            <p class="mt-1">3 independent runs</p>
+                            <div class="flex items-center gap-2 mt-1 w-full">
+                                <div class="flex h-3 border border-black w-24 shrink-0">
+                                    <div class="bg-black w-[40%]"></div>
+                                    <div class="bg-dots w-[60%]"></div>
+                                </div>
+                                <span class="text-gray-500 text-[11px] shrink-0">67%</span>
+                                <span class="text-gray-500 text-[11px] ml-auto">* Running</span>
+                            </div>
+                        </div>
+                        <div class="border border-black p-3 flex flex-col gap-3">
+                            <div class="flex justify-between items-center">
+                                <span class="font-bold text-[13px]">Discovery</span>
+                                <div class="w-3.5 h-3.5 border border-black bg-dots"></div>
+                            </div>
+                            <p>Run triplicate Discovery Cycles</p>
+                            <p class="mt-1">3 independent runs</p>
+                            <div class="flex items-center gap-2 mt-1 w-full">
+                                <div class="flex h-3 border border-black w-24 shrink-0">
+                                    <div class="bg-black w-[40%]"></div>
+                                    <div class="bg-dots w-[60%]"></div>
+                                </div>
+                                <span class="text-gray-500 text-[11px] shrink-0">67%</span>
+                                <span class="text-gray-500 text-[11px] ml-auto">* Running</span>
+                            </div>
+                        </div>
+                        <div class="border border-black p-3 flex flex-col gap-3">
+                            <div class="flex justify-between items-center">
+                                <span class="font-bold text-[13px]">Discovery</span>
+                                <div class="w-3.5 h-3.5 border border-black icon-diagonal"></div>
+                            </div>
+                            <p>Run triplicate Discovery Cycles</p>
+                            <p class="mt-1">3 independent runs</p>
+                            <div class="flex items-center gap-2 mt-1 w-full">
+                                <div class="flex h-3 border border-black w-24 shrink-0">
+                                    <div class="bg-black w-[40%]"></div>
+                                    <div class="bg-dots w-[60%]"></div>
+                                </div>
+                                <span class="text-gray-500 text-[11px] shrink-0">67%</span>
+                                <span class="text-gray-500 text-[11px] ml-auto">* Running</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
-
-            <div class="task-card">
-                <div class="task-title">Batch Processing</div>
-                <div class="task-description">15 candidates in queue<br>Estimated completion: 2h 15m</div>
-                <div class="task-status">⏳ Queued</div>
-            </div>
-        </div>
+        </main>
 
         <!-- Footer -->
-        <div class="footer">
-            PeptAI — Built on Bio Protocol — Powered by BIOS + LiteFold
-        </div>
+        <footer class="mt-4 border border-black p-2 shrink-0 bg-white">
+            <p class="font-bold ml-1 text-[13px]">PeptAI · Built on Bio Protocol · Powered by BIOS + Litefold</p>
+        </footer>
     </div>
 
-    <!-- Three.js Protein Visualization -->
+    <!-- Three.js Protein Visualization Script -->
     <script>
-        // Three.js scene setup
+        // Three.js scene setup (subtle background)
         const scene = new THREE.Scene();
-        const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
-        const renderer = new THREE.WebGLRenderer({ alpha: true, antialias: true });
+        scene.background = new THREE.Color(0xffffff);
         
+        const camera = new THREE.PerspectiveCamera(45, window.innerWidth / window.innerHeight, 0.1, 1000);
+        camera.position.z = 30;
+
+        const renderer = new THREE.WebGLRenderer({ antialias: true, alpha: false });
         renderer.setSize(window.innerWidth, window.innerHeight);
-        renderer.setClearColor(0x050505, 1);
+        renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
         document.getElementById('canvas-container').appendChild(renderer.domElement);
 
-        // Protein-like structure (abstract representation)
-        const geometryGroup = new THREE.Group();
+        // Protein structure (torus knot)
+        const geometry = new THREE.TorusKnotGeometry(8, 2.5, 300, 20, 3, 7);
+        const proteinGroup = new THREE.Group();
 
-        // Create interconnected spheres (atoms)
-        const sphereGeometry = new THREE.SphereGeometry(0.15, 16, 16);
-        const sphereMaterial = new THREE.MeshPhongMaterial({
-            color: 0x40ff40,
-            emissive: 0x40ff40,
-            emissiveIntensity: 0.2,
+        // Points material
+        const pointsMaterial = new THREE.PointsMaterial({
+            color: 0x000000,
+            size: 0.08,
             transparent: true,
-            opacity: 0.7,
-            wireframe: false
+            opacity: 0.3
         });
+        const proteinPoints = new THREE.Points(geometry, pointsMaterial);
+        proteinGroup.add(proteinPoints);
 
-        // Create atom cluster
-        for (let i = 0; i < 50; i++) {
-            const sphere = new THREE.Mesh(sphereGeometry, sphereMaterial.clone());
-            const theta = Math.random() * Math.PI * 2;
-            const phi = Math.random() * Math.PI;
-            const radius = 2 + Math.random() * 3;
-            
-            sphere.position.x = radius * Math.sin(phi) * Math.cos(theta);
-            sphere.position.y = radius * Math.sin(phi) * Math.sin(theta);
-            sphere.position.z = radius * Math.cos(phi);
-            
-            geometryGroup.add(sphere);
-        }
-
-        // Add connecting lines (bonds)
+        // Lines material
         const lineMaterial = new THREE.LineBasicMaterial({
-            color: 0x40ff40,
+            color: 0x000000,
             transparent: true,
-            opacity: 0.15
+            opacity: 0.1
         });
+        const edges = new THREE.EdgesGeometry(geometry, 15);
+        const proteinLines = new THREE.LineSegments(edges, lineMaterial);
+        proteinGroup.add(proteinLines);
 
-        const children = geometryGroup.children;
-        for (let i = 0; i < children.length; i++) {
-            for (let j = i + 1; j < children.length; j++) {
-                const distance = children[i].position.distanceTo(children[j].position);
-                if (distance < 1.5) {
-                    const points = [];
-                    points.push(children[i].position);
-                    points.push(children[j].position);
-                    const lineGeometry = new THREE.BufferGeometry().setFromPoints(points);
-                    const line = new THREE.Line(lineGeometry, lineMaterial);
-                    geometryGroup.add(line);
-                }
-            }
-        }
+        scene.add(proteinGroup);
 
-        scene.add(geometryGroup);
+        // Animation
+        const clock = new THREE.Clock();
 
-        // Lighting
-        const ambientLight = new THREE.AmbientLight(0xffffff, 0.3);
-        scene.add(ambientLight);
-
-        const pointLight = new THREE.PointLight(0x40ff40, 1, 100);
-        pointLight.position.set(5, 5, 5);
-        scene.add(pointLight);
-
-        camera.position.z = 8;
-
-        // Animation loop
         function animate() {
             requestAnimationFrame(animate);
+            const elapsedTime = clock.getElapsedTime();
             
-            // Slow rotation
-            geometryGroup.rotation.x += 0.001;
-            geometryGroup.rotation.y += 0.002;
-            
-            // Pulse effect on spheres
-            const time = Date.now() * 0.001;
-            geometryGroup.children.forEach((child, i) => {
-                if (child.type === 'Mesh') {
-                    child.material.emissiveIntensity = 0.2 + Math.sin(time + i * 0.1) * 0.1;
-                }
-            });
+            proteinGroup.rotation.y = elapsedTime * 0.05;
+            proteinGroup.rotation.x = elapsedTime * 0.025;
             
             renderer.render(scene, camera);
         }
 
         animate();
 
-        // Handle resize
+        // Resize handler
         window.addEventListener('resize', () => {
             camera.aspect = window.innerWidth / window.innerHeight;
             camera.updateProjectionMatrix();
