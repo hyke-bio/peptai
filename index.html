@@ -1,241 +1,763 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>PeptAI - Visual System & Pep Agent</title>
-  <link rel="stylesheet" href="packages/design-system/tokens/colors.css">
-  <link rel="stylesheet" href="packages/design-system/tokens/typography.css">
-  <link rel="stylesheet" href="packages/design-system/tokens/spacing.css">
-  <link rel="stylesheet" href="packages/design-system/components/cards/card.css">
-  <link rel="stylesheet" href="packages/design-system/components/metrics/metric.css">
-  <link rel="stylesheet" href="packages/design-system/components/buttons/button.css">
-  <link rel="stylesheet" href="packages/design-system/components/tag/tag.css">
-  <link rel="stylesheet" href="packages/design-system/components/loader/loader.css">
-  <style>
-    * {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
-    }
-    
-    html, body {
-      height: 100%;
-      width: 100%;
-      overflow: hidden;
-    }
-    
-    body {
-      background: var(--color-bg-page);
-      color: var(--color-text-primary);
-    }
-    
-    .container {
-      width: 100%;
-      height: 100vh;
-      display: flex;
-      flex-direction: column;
-      padding: var(--gap);
-    }
-    
-    .header {
-      flex: 0 0 auto;
-      margin-bottom: var(--gap);
-    }
-    
-    .title {
-      font-size: 16px;
-      font-weight: 400;
-      margin-bottom: 4px;
-    }
-    
-    .subtitle {
-      font-size: 13px;
-      color: var(--color-text-tertiary);
-    }
-    
-    .main-grid {
-      display: grid;
-      grid-template-columns: 480px 555px 1fr;
-      gap: var(--gap);
-      flex: 1 1 auto;
-      min-height: 0;
-      height: 100%;
-    }
-    
-    .column {
-      display: flex;
-      flex-direction: column;
-      gap: var(--gap);
-      min-height: 0;
-      height: 100%;
-    }
-    
-    .preview-card {
-      text-align: center;
-      padding: 40px 20px;
-    }
-    
-    .preview-card img {
-      width: 100%;
-      max-width: 200px;
-      height: auto;
-      image-rendering: pixelated;
-    }
-    
-    .footer {
-      flex: 0 0 42px;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      padding: 0 16px;
-      margin-top: var(--gap);
-      background: var(--color-bg-card);
-      border: 1px solid var(--color-border-tertiary);
-      font-size: 11px;
-      color: var(--color-text-tertiary);
-    }
-    
-    .links {
-      display: flex;
-      flex-direction: column;
-      gap: 8px;
-      margin-top: var(--gap);
-    }
-    
-    @media (max-width: 1680px) {
-      .main-grid {
-        grid-template-columns: 400px 1fr;
-      }
-    }
-    
-    @media (max-width: 1100px) {
-      .main-grid {
-        grid-template-columns: 1fr;
-      }
-    }
-  </style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PeptAI Dashboard — Original Design</title>
+    <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --font-primary: 'IBM Plex Mono', 'Courier New', monospace;
+            --bg-primary: #FFFFFF;
+            --bg-page: #F5F5F5;
+            --text-primary: #1A1A1A;
+            --text-secondary: #555555;
+            --text-muted: #777777;
+            --border-primary: #1A1A1A;
+            --border-light: #CCCCCC;
+        }
+
+        body {
+            font-family: var(--font-primary);
+            background: var(--bg-page);
+            color: var(--text-primary);
+            line-height: 1.5;
+        }
+
+        .dashboard {
+            display: grid;
+            grid-template-columns: 240px 1fr 270px 270px;
+            grid-template-rows: 50px 1fr 30px;
+            grid-template-areas:
+                "header header header header"
+                "sidebar center right1 right2"
+                "footer footer footer footer";
+            min-height: 100vh;
+            max-width: 1920px;
+            margin: 0 auto;
+        }
+
+        /* Header */
+        .header {
+            grid-area: header;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 10px 20px;
+            border-bottom: 2px solid var(--border-primary);
+            background: var(--bg-primary);
+        }
+
+        .header-logo {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 18px;
+            font-weight: 700;
+        }
+
+        .header-logo svg {
+            width: 30px;
+            height: 30px;
+        }
+
+        .nav-buttons {
+            display: flex;
+            gap: 8px;
+        }
+
+        .nav-btn {
+            padding: 6px 16px;
+            font-family: var(--font-primary);
+            font-size: 13px;
+            border: 2px solid var(--border-primary);
+            background: var(--bg-primary);
+            cursor: pointer;
+            transition: background 0.2s;
+        }
+
+        .nav-btn:hover {
+            background: #F0F0F0;
+        }
+
+        .nav-btn--primary {
+            background: var(--text-primary);
+            color: white;
+            border-radius: 14px;
+            padding: 6px 20px;
+        }
+
+        /* Left Sidebar */
+        .sidebar {
+            grid-area: sidebar;
+            padding: 12px;
+            overflow-y: auto;
+        }
+
+        .agent-status-card, .agent-feed-card {
+            border: 2px solid var(--border-primary);
+            padding: 16px;
+            margin-bottom: 12px;
+            background: var(--bg-primary);
+        }
+
+        .agent-status-indicator {
+            font-size: 14px;
+            font-weight: 700;
+            margin-bottom: 12px;
+        }
+
+        .brand-name {
+            font-size: 14px;
+            font-weight: 700;
+            margin-bottom: 4px;
+        }
+
+        .tagline {
+            font-size: 13px;
+            margin-bottom: 12px;
+        }
+
+        .bracket-link {
+            display: block;
+            font-size: 13px;
+            margin-bottom: 4px;
+            cursor: pointer;
+            text-decoration: none;
+            color: var(--text-primary);
+        }
+
+        .bracket-link:hover {
+            text-decoration: underline;
+        }
+
+        .feed-header {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 12px;
+        }
+
+        .feed-title {
+            font-size: 14px;
+            font-weight: 700;
+        }
+
+        .live-indicator {
+            font-size: 12px;
+        }
+
+        .feed-item {
+            border: 1px dashed var(--border-primary);
+            padding: 10px;
+            margin-bottom: 8px;
+        }
+
+        .feed-item-title {
+            font-size: 12px;
+            font-weight: 600;
+            margin-bottom: 6px;
+        }
+
+        .feed-item-body {
+            font-size: 11px;
+            line-height: 1.4;
+            color: var(--text-secondary);
+        }
+
+        /* Center Content */
+        .center {
+            grid-area: center;
+            padding: 12px;
+            overflow-y: auto;
+        }
+
+        .discovery-pipeline, .candidate-leaderboard {
+            border: 2px solid var(--border-primary);
+            padding: 16px;
+            margin-bottom: 12px;
+            background: var(--bg-primary);
+        }
+
+        .section-title {
+            font-size: 16px;
+            font-weight: 700;
+            margin-bottom: 16px;
+        }
+
+        .pipeline-flow {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            margin-bottom: 16px;
+            font-size: 13px;
+            flex-wrap: wrap;
+        }
+
+        .gate-icons-grid {
+            display: grid;
+            grid-template-columns: repeat(9, 1fr);
+            gap: 8px;
+            margin-bottom: 8px;
+        }
+
+        .gate-icon-wrapper {
+            text-align: center;
+        }
+
+        .gate-icon {
+            width: 100%;
+            aspect-ratio: 1;
+            border: 2px solid var(--border-primary);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 12px;
+            font-weight: 600;
+            margin-bottom: 4px;
+        }
+
+        .gate-icon--solid {
+            background: var(--text-primary);
+            color: white;
+        }
+
+        .gate-icon--pattern {
+            background-image: 
+                linear-gradient(45deg, #1A1A1A 25%, transparent 25%),
+                linear-gradient(-45deg, #1A1A1A 25%, transparent 25%),
+                linear-gradient(45deg, transparent 75%, #1A1A1A 75%),
+                linear-gradient(-45deg, transparent 75%, #1A1A1A 75%);
+            background-size: 6px 6px;
+        }
+
+        .gate-label {
+            font-size: 10px;
+            line-height: 1.2;
+        }
+
+        .gate-stats {
+            font-size: 10px;
+            color: var(--text-muted);
+        }
+
+        /* Table */
+        .leaderboard-header {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 12px;
+        }
+
+        .sort-link {
+            font-size: 13px;
+            cursor: pointer;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 13px;
+        }
+
+        th {
+            text-align: left;
+            padding: 8px 4px;
+            border-bottom: 2px solid var(--border-primary);
+            font-weight: 700;
+        }
+
+        td {
+            padding: 6px 4px;
+            border-bottom: 1px solid var(--border-light);
+        }
+
+        /* Stats Grid */
+        .stats-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 12px;
+            margin-top: 12px;
+        }
+
+        .stat-card {
+            border: 2px solid var(--border-primary);
+            padding: 12px;
+            background: var(--bg-primary);
+        }
+
+        .stat-label {
+            font-size: 12px;
+            margin-bottom: 4px;
+        }
+
+        .stat-value {
+            font-size: 20px;
+            font-weight: 700;
+        }
+
+        /* Right Sidebars */
+        .right1, .right2 {
+            padding: 12px;
+            overflow-y: auto;
+        }
+
+        .right1 { grid-area: right1; }
+        .right2 { grid-area: right2; }
+
+        .tasks-header {
+            font-size: 14px;
+            font-weight: 700;
+            margin-bottom: 12px;
+        }
+
+        .task-card {
+            border: 2px solid var(--border-primary);
+            padding: 12px;
+            margin-bottom: 12px;
+            background: var(--bg-primary);
+        }
+
+        .task-title {
+            font-size: 13px;
+            font-weight: 700;
+            margin-bottom: 8px;
+        }
+
+        .task-description {
+            font-size: 12px;
+            margin-bottom: 8px;
+            line-height: 1.4;
+        }
+
+        .task-progress {
+            height: 20px;
+            border: 2px solid var(--border-primary);
+            margin-bottom: 6px;
+            position: relative;
+            display: flex;
+            align-items: center;
+        }
+
+        .task-progress-fill {
+            height: 100%;
+            background: var(--text-primary);
+        }
+
+        .task-progress-label {
+            position: absolute;
+            right: 8px;
+            font-size: 11px;
+            font-weight: 600;
+        }
+
+        .task-status {
+            font-size: 11px;
+            text-align: right;
+        }
+
+        .how-peptai-works {
+            border: 2px solid var(--border-primary);
+            padding: 12px;
+            background: var(--bg-primary);
+        }
+
+        .how-peptai-title {
+            font-size: 13px;
+            font-weight: 700;
+            margin-bottom: 12px;
+            display: flex;
+            justify-content: space-between;
+        }
+
+        .step-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 8px;
+        }
+
+        .step-card {
+            border: 2px solid var(--border-primary);
+            padding: 8px;
+            font-size: 11px;
+            text-align: center;
+        }
+
+        .step-number {
+            font-weight: 700;
+            margin-bottom: 4px;
+        }
+
+        /* Footer */
+        .footer {
+            grid-area: footer;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            border-top: 2px solid var(--border-primary);
+            background: var(--bg-primary);
+            font-size: 12px;
+        }
+
+        /* Scrollbar */
+        ::-webkit-scrollbar {
+            width: 10px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: var(--bg-page);
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: var(--border-light);
+            border: 2px solid var(--bg-page);
+        }
+
+        ::-webkit-scrollbar-thumb:hover {
+            background: var(--text-muted);
+        }
+    </style>
 </head>
 <body>
-  <div class="container">
-    <div class="header">
-      <div class="title">[ PEPTAI MONOREPO ]</div>
-      <div class="subtitle">Design system + Pep Agent character</div>
+
+    <div class="dashboard">
+        <!-- Header -->
+        <div class="header">
+            <div class="header-logo">
+                <svg viewBox="0 0 30 30" fill="currentColor">
+                    <path d="M15 2 L15 10 M15 10 L11 14 M15 10 L19 14 M10 15 C10 10 20 10 20 15 C20 20 10 20 10 15 M10 20 L10 28 M20 20 L20 28"/>
+                </svg>
+                <span>PeptAI</span>
+            </div>
+            <div class="nav-buttons">
+                <button class="nav-btn">Leaderboard</button>
+                <button class="nav-btn">Docs</button>
+                <button class="nav-btn nav-btn--primary">Join</button>
+            </div>
+        </div>
+
+        <!-- Left Sidebar -->
+        <div class="sidebar">
+            <div class="agent-status-card">
+                <div class="agent-status-indicator">✳ Agent Running</div>
+                <div class="brand-name">PeptAI</div>
+                <div class="tagline">Autonomous Peptide Discovery,<br>Transparently On-Chain</div>
+                <div class="description" style="font-size: 13px; margin-bottom: 12px;">
+                    One AI agent. Nine validation gates.<br>
+                    Every result published immutably.
+                </div>
+                <a href="#" class="bracket-link">[ View Pipeline ]</a>
+                <a href="#" class="bracket-link">[ Read Docs ]</a>
+                <a href="#" class="bracket-link">[ Join Community ]</a>
+            </div>
+
+            <div class="agent-feed-card">
+                <div class="feed-header">
+                    <div class="feed-title">Agent Feed</div>
+                    <div class="live-indicator">✳ Live</div>
+                </div>
+                <div class="feed-item">
+                    <div class="feed-item-title">Candidate #46 - 14:23 - Evaluating</div>
+                    <div class="feed-item-body">
+                        Currently evaluating Candidate #48 at Gate 3 (Binding Pose). Pipeline: 12 passed all gates<br>
+                        3 pending synthesis.
+                    </div>
+                </div>
+                <div class="feed-item">
+                    <div class="feed-item-title">Candidate #46 - 14:23 - Evaluating</div>
+                    <div class="feed-item-body">
+                        Currently evaluating Candidate #48 at Gate 3 (Binding Pose). Pipeline: 12 passed all gates<br>
+                        3 pending synthesis.
+                    </div>
+                </div>
+                <div class="feed-item">
+                    <div class="feed-item-title">Candidate #46 - 14:23 - Evaluating</div>
+                    <div class="feed-item-body">
+                        Currently evaluating Candidate #48 at Gate 3 (Binding Pose). Pipeline: 12 passed all gates<br>
+                        3 pending synthesis.
+                    </div>
+                </div>
+                <div class="feed-item">
+                    <div class="feed-item-title">Candidate #46 - 14:23 - Evaluating</div>
+                    <div class="feed-item-body">
+                        Currently evaluating Candidate #48 at Gate 3 (Binding Pose). Pipeline: 12 passed all gates
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Center Content -->
+        <div class="center">
+            <div class="discovery-pipeline">
+                <div class="section-title">Discovery Pipeline</div>
+                <div class="pipeline-flow">
+                    <span>G1</span> <span>→</span> <span>G2</span> <span>→</span> <span>G3</span> <span>→</span> <span>G4</span> <span>→</span> <span>G5</span> <span>→</span> <span>G6</span> <span>→</span> <span>G7</span> <span>→</span> <span>G8</span> <span>→</span> <span>G9</span>
+                </div>
+                <div class="gate-icons-grid">
+                    <div class="gate-icon-wrapper">
+                        <div class="gate-icon gate-icon--solid">G1</div>
+                        <div class="gate-label">Struc<br>ture.</div>
+                        <div class="gate-stats">12/47<br>passed</div>
+                    </div>
+                    <div class="gate-icon-wrapper">
+                        <div class="gate-icon gate-icon--solid">G1</div>
+                        <div class="gate-label">Com<br>form.</div>
+                        <div class="gate-stats">12/47<br>passed</div>
+                    </div>
+                    <div class="gate-icon-wrapper">
+                        <div class="gate-icon gate-icon--solid">G1</div>
+                        <div class="gate-label">Bind<br>Pose</div>
+                        <div class="gate-stats">12/47<br>passed</div>
+                    </div>
+                    <div class="gate-icon-wrapper">
+                        <div class="gate-icon gate-icon--solid">G1</div>
+                        <div class="gate-label">Affi<br>nity</div>
+                        <div class="gate-stats">12/47<br>passed</div>
+                    </div>
+                    <div class="gate-icon-wrapper">
+                        <div class="gate-icon gate-icon--pattern">G1</div>
+                        <div class="gate-label">MD<br>Stab</div>
+                        <div class="gate-stats">12/47<br>passed</div>
+                    </div>
+                    <div class="gate-icon-wrapper">
+                        <div class="gate-icon gate-icon--pattern">G1</div>
+                        <div class="gate-label">Prot<br>eoly.</div>
+                        <div class="gate-stats">12/47<br>passed</div>
+                    </div>
+                    <div class="gate-icon-wrapper">
+                        <div class="gate-icon gate-icon--pattern">G1</div>
+                        <div class="gate-label">Phys<br>icmu.</div>
+                        <div class="gate-stats">12/47<br>passed</div>
+                    </div>
+                    <div class="gate-icon-wrapper">
+                        <div class="gate-icon gate-icon--pattern">G1</div>
+                        <div class="gate-label">Sel<br>ect.</div>
+                        <div class="gate-stats">12/47<br>passed</div>
+                    </div>
+                    <div class="gate-icon-wrapper">
+                        <div class="gate-icon gate-icon--pattern">G1</div>
+                        <div class="gate-label">Exp<br>Val.</div>
+                        <div class="gate-stats">12/47<br>passed</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="candidate-leaderboard">
+                <div class="leaderboard-header">
+                    <div class="section-title">Candidate Leaderboard</div>
+                    <div class="sort-link">[ Sort ˅ ]</div>
+                </div>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>Target</th>
+                            <th>Gates</th>
+                            <th>Affinity</th>
+                            <th>Synthesis</th>
+                            <th>Vote</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>PEP-031</td>
+                            <td>GLP-1R</td>
+                            <td>8/8 ✓</td>
+                            <td>-12.4</td>
+                            <td>Synthesis</td>
+                            <td>48</td>
+                        </tr>
+                        <tr>
+                            <td>PEP-031</td>
+                            <td>GLP-1R</td>
+                            <td>8/8 ✓</td>
+                            <td>-11.8</td>
+                            <td>Wet Lab</td>
+                            <td>38</td>
+                        </tr>
+                        <tr>
+                            <td>PEP-031</td>
+                            <td>GLP-1R</td>
+                            <td>6/8</td>
+                            <td>-10.2</td>
+                            <td>Evaluating</td>
+                            <td>2</td>
+                        </tr>
+                        <tr>
+                            <td>PEP-031</td>
+                            <td>GLP-1R</td>
+                            <td>5/8</td>
+                            <td>-9.7</td>
+                            <td>Evaluating</td>
+                            <td>5</td>
+                        </tr>
+                        <tr>
+                            <td>PEP-031</td>
+                            <td>IL-17A</td>
+                            <td>4/8</td>
+                            <td></td>
+                            <td>Evaluating</td>
+                            <td></td>
+                        </tr>
+                        <tr>
+                            <td>PEP-031</td>
+                            <td>GLP-1R</td>
+                            <td>2/8 ✗</td>
+                            <td>-7.1</td>
+                            <td>Failed G43</td>
+                            <td></td>
+                        </tr>
+                    </tbody>
+                </table>
+                <div style="margin-top: 12px;">
+                    <a href="#" class="bracket-link">[ View Pipeline ]</a>
+                </div>
+            </div>
+
+            <div class="stats-grid">
+                <div class="stat-card">
+                    <div class="stat-label">Candidates Evaluated</div>
+                    <div class="stat-value">127</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-label">Gates Passed</div>
+                    <div class="stat-value">12</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-label">Current Target</div>
+                    <div class="stat-value">GLP-1R</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-label">Days Running</div>
+                    <div class="stat-value">23</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Right Sidebar 1 -->
+        <div class="right1">
+            <div class="tasks-header">Active tasks</div>
+
+            <div class="task-card">
+                <div class="task-title">Discovery</div>
+                <div class="task-description">Run triplicate Discovery Cycles<br>3 independent runs</div>
+                <div class="task-progress">
+                    <div class="task-progress-fill" style="width: 67%;"></div>
+                    <div class="task-progress-label">67%</div>
+                </div>
+                <div class="task-status">✳ Running</div>
+            </div>
+
+            <div class="task-card">
+                <div class="task-title">Gate Evaluation</div>
+                <div class="task-description">Run triplicate Discovery Cycles<br>3 independent runs</div>
+                <div class="task-progress">
+                    <div class="task-progress-fill" style="width: 67%;"></div>
+                    <div class="task-progress-label">67%</div>
+                </div>
+                <div class="task-status">✳ Running</div>
+            </div>
+
+            <div class="task-card">
+                <div class="task-title">Discovery</div>
+                <div class="task-description">Run triplicate Discovery Cycles<br>3 independent runs</div>
+                <div class="task-progress">
+                    <div class="task-progress-fill" style="width: 67%;"></div>
+                    <div class="task-progress-label">67%</div>
+                </div>
+                <div class="task-status">✳ Running</div>
+            </div>
+
+            <div class="task-card">
+                <div class="task-title">Discovery</div>
+                <div class="task-description">Run triplicate Discovery Cycles<br>3 independent runs</div>
+                <div class="task-progress">
+                    <div class="task-progress-fill" style="width: 67%;"></div>
+                    <div class="task-progress-label">67%</div>
+                </div>
+                <div class="task-status">✳ Running</div>
+            </div>
+
+            <div class="how-peptai-works">
+                <div class="how-peptai-title">
+                    <span>How PeptAI Works</span>
+                    <span>[ Docs ]</span>
+                </div>
+                <div class="step-grid">
+                    <div class="step-card">
+                        <div class="step-number">AI</div>
+                        <div>Designs Candids tes</div>
+                    </div>
+                    <div class="step-card">
+                        <div class="step-number">9 Gates</div>
+                        <div>Validat ion</div>
+                    </div>
+                    <div class="step-card">
+                        <div class="step-number">Results</div>
+                        <div>Published</div>
+                    </div>
+                    <div class="step-card">
+                        <div class="step-number">Community</div>
+                        <div>Votes</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Right Sidebar 2 -->
+        <div class="right2">
+            <div class="tasks-header">Active tasks</div>
+
+            <div class="task-card">
+                <div class="task-title">Discovery</div>
+                <div class="task-description">Run triplicate Discovery Cycles<br>3 independent runs</div>
+                <div class="task-progress">
+                    <div class="task-progress-fill" style="width: 67%;"></div>
+                    <div class="task-progress-label">67%</div>
+                </div>
+                <div class="task-status">✳ Running</div>
+            </div>
+
+            <div class="task-card">
+                <div class="task-title">Gate Evaluation</div>
+                <div class="task-description">Run triplicate Discovery Cycles<br>3 independent runs</div>
+                <div class="task-progress">
+                    <div class="task-progress-fill" style="width: 67%;"></div>
+                    <div class="task-progress-label">67%</div>
+                </div>
+                <div class="task-status">✳ Running</div>
+            </div>
+
+            <div class="task-card">
+                <div class="task-title">Discovery</div>
+                <div class="task-description">Run triplicate Discovery Cycles<br>3 independent runs</div>
+                <div class="task-progress">
+                    <div class="task-progress-fill" style="width: 67%;"></div>
+                    <div class="task-progress-label">67%</div>
+                </div>
+                <div class="task-status">✳ Running</div>
+            </div>
+
+            <div class="task-card">
+                <div class="task-title">Discovery</div>
+                <div class="task-description">Run triplicate Discovery Cycles<br>3 independent runs</div>
+                <div class="task-progress">
+                    <div class="task-progress-fill" style="width: 67%;"></div>
+                    <div class="task-progress-label">67%</div>
+                </div>
+                <div class="task-status">✳ Running</div>
+            </div>
+        </div>
+
+        <!-- Footer -->
+        <div class="footer">
+            PeptAI - Built on Bio Protocol - Powered by BIOS + Litefold
+        </div>
     </div>
-    
-    <div class="main-grid">
-      <!-- Column 1: Pep Agent -->
-      <div class="column">
-        <div class="card">
-          <div class="card-header">[ PEP AGENT ]</div>
-          <div class="preview-card">
-            <img src="packages/pep-agent/assembled/pep-agent-default.svg" alt="Pep Agent">
-          </div>
-        </div>
-        
-        <div class="card">
-          <div class="card-header">[ CHARACTER INFO ]</div>
-          <div class="metric-grid">
-            <div class="metric">
-              <div class="metric-label">Parts</div>
-              <div class="metric-value">6</div>
-            </div>
-            <div class="metric">
-              <div class="metric-label">Format</div>
-              <div class="metric-value">SVG</div>
-            </div>
-            <div class="metric">
-              <div class="metric-label">Size</div>
-              <div class="metric-value">~8KB</div>
-            </div>
-          </div>
-        </div>
-      </div>
-      
-      <!-- Column 2: Design System -->
-      <div class="column">
-        <div class="card">
-          <div class="card-header">[ DESIGN SYSTEM ]</div>
-          <div class="metric-grid">
-            <div class="metric">
-              <div class="metric-label">Components</div>
-              <div class="metric-value">19</div>
-            </div>
-            <div class="metric">
-              <div class="metric-label">Tokens</div>
-              <div class="metric-value">24</div>
-            </div>
-            <div class="metric">
-              <div class="metric-label">Packages</div>
-              <div class="metric-value">2</div>
-            </div>
-          </div>
-        </div>
-        
-        <div class="card">
-          <div class="card-header">[ COMPONENT DEMOS ]</div>
-          <div style="padding: var(--gap); display: flex; flex-wrap: wrap; gap: 8px; align-items: center;">
-            <button class="btn btn-primary">Primary</button>
-            <button class="btn btn-secondary">Secondary</button>
-            <button class="btn btn-tertiary">Tertiary</button>
-            <span class="tag">Tag</span>
-            <span class="tag tag-success">Success</span>
-            <div class="loader"></div>
-          </div>
-        </div>
-        
-        <div class="card" style="flex: 1;">
-          <div class="card-header">[ PACKAGES ]</div>
-          <div style="padding: var(--gap); line-height: 1.8; color: var(--color-text-secondary);">
-            <div><strong>@hyke-bio/design-system</strong></div>
-            <div style="color: var(--color-text-tertiary); margin-bottom: 12px;">
-              Tokens, components, layout
-            </div>
-            
-            <div><strong>@hyke-bio/pep-agent</strong></div>
-            <div style="color: var(--color-text-tertiary);">
-              Character SVGs, showcase
-            </div>
-          </div>
-        </div>
-      </div>
-      
-      <!-- Column 3: Resources -->
-      <div class="column">
-        <div class="card">
-          <div class="card-header">[ MONOREPO ]</div>
-          <div class="metric-grid">
-            <div class="metric">
-              <div class="metric-label">Structure</div>
-              <div class="metric-value">Workspace</div>
-            </div>
-            <div class="metric">
-              <div class="metric-label">Manager</div>
-              <div class="metric-value">npm</div>
-            </div>
-            <div class="metric">
-              <div class="metric-label">Version</div>
-              <div class="metric-value">1.0.0</div>
-            </div>
-          </div>
-        </div>
-        
-        <div class="card" style="flex: 1;">
-          <div class="card-header">[ RESOURCES ]</div>
-          <div class="links">
-            <a href="packages/pep-agent/" class="btn btn-secondary">[ Pep Agent Package ]</a>
-            <a href="packages/design-system/" class="btn btn-secondary">[ Design System ]</a>
-            <a href="examples/full-dashboard.html" class="btn btn-secondary">[ Full Dashboard ]</a>
-            <a href="README.md" class="btn btn-primary">[ Documentation ]</a>
-          </div>
-        </div>
-      </div>
-    </div>
-    
-    <div class="footer">
-      <div>PeptAI Monorepo v1.0.0</div>
-      <div>Design System + Pep Agent · Forked from biometrics</div>
-    </div>
-  </div>
+
 </body>
 </html>
